@@ -1,0 +1,62 @@
+// Fichier temporaire. A SUPPRIMER de GitHub une fois les attributs crees.
+// Appel : https://lecartographe-gp.netlify.app/.netlify/functions/setup-attributs?cle=releve-2608-gp
+
+const JETON = 'releve-2608-gp';
+
+const ATTRIBUTS = [
+  ['CHEMIN_VIE',      'text'],
+  ['ANNEE_PERSO',     'text'],
+  ['SIGNE',           'text'],
+  ['DUREE',           'text'],
+  ['MOUVEMENT',       'text'],
+  ['ENJEU',           'text'],
+  ['PHRASE',          'text'],
+  ['DATE_NAISSANCE',  'date'],
+  ['DATE_BASCULE',    'date']
+];
+
+export default async (req) => {
+  const url = new URL(req.url);
+  if (url.searchParams.get('cle') !== JETON) {
+    return new Response('Non autorise', { status: 403 });
+  }
+
+  const cle = process.env.BREVO_API_KEY;
+  if (!cle) return new Response('BREVO_API_KEY absente', { status: 500 });
+
+  const lignes = [];
+
+  for (const [nom, type] of ATTRIBUTS) {
+    try {
+      const rep = await fetch(
+        'https://api.brevo.com/v3/contacts/attributes/normal/' + nom,
+        {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', 'api-key': cle },
+          body: JSON.stringify({ type })
+        }
+      );
+
+      if (rep.ok) {
+        lignes.push(nom + ' (' + type + ') : cree');
+      } else {
+        const detail = await rep.text();
+        if (rep.status === 400 && /exist/i.test(detail)) {
+          lignes.push(nom + ' : existait deja');
+        } else {
+          lignes.push(nom + ' : ECHEC ' + rep.status + ' - ' + detail);
+        }
+      }
+    } catch (e) {
+      lignes.push(nom + ' : ERREUR - ' + e.message);
+    }
+  }
+
+  lignes.push('');
+  lignes.push('Termine. Supprimez maintenant ce fichier du depot GitHub.');
+
+  return new Response(lignes.join('\n'), {
+    status: 200,
+    headers: { 'content-type': 'text/plain; charset=utf-8' }
+  });
+};
