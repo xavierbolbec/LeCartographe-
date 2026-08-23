@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le Relevé express — Le Cartographe</title>
+<meta name="description" content="Huit questions, quatre-vingt-dix secondes. Votre relief, votre porte, et une date à vérifier.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Le Relevé express — Le Cartographe">
+<meta property="og:description" content="Ce n'est pas un test de personnalité. Ça se calcule.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nuit:#0E1B2E; --nuit-2:#0A1524; --nuit-3:#152740;
+  --or:#C9A227; --or-clair:#E3C25C;
+  --bleu:#4EC3E8; --creme:#F2E6CE;
+  --texte:#E8E2D4; --texte-doux:#A9B8CA;
+  --serif:'Lora',Georgia,serif; --sans:'Poppins',-apple-system,BlinkMacSystemFont,sans-serif;
+  --max:660px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--nuit); color:var(--texte); font-family:var(--sans); font-weight:300;
+  line-height:1.62; min-height:100vh; min-height:100dvh;
+  background-image:
+    radial-gradient(ellipse 90% 60% at 62% 8%, rgba(201,162,39,.10), transparent 62%),
+    radial-gradient(ellipse 80% 55% at 10% 88%, rgba(78,195,232,.07), transparent 60%),
+    radial-gradient(ellipse 120% 90% at 50% 42%, var(--nuit-3), var(--nuit) 48%, var(--nuit-2) 100%);
+  background-attachment:fixed;
+}
+.grille{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:linear-gradient(rgba(201,162,39,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(201,162,39,.05) 1px,transparent 1px);
+  background-size:74px 74px;}
+.rose-fond{position:fixed;left:-24%;top:50%;transform:translateY(-50%);
+  width:150vw;max-width:900px;opacity:.16;pointer-events:none;z-index:0}
+.enveloppe{position:relative;z-index:1;max-width:var(--max);margin:0 auto;
+  padding:26px 22px calc(40px + env(safe-area-inset-bottom));
+  min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+
+/* ---------- en-tete ---------- */
+header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:26px}
+.marque{font-family:var(--serif);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--creme)}
+.coord{font-size:11px;letter-spacing:.13em;color:var(--or);white-space:nowrap}
+
+/* ---------- progression ---------- */
+.jauge{height:2px;background:rgba(242,230,206,.12);position:relative;margin-bottom:6px;border-radius:2px;overflow:hidden}
+.jauge span{position:absolute;inset:0 auto 0 0;width:0;background:linear-gradient(90deg,var(--or),var(--or-clair));
+  transition:width .55s cubic-bezier(.22,1,.36,1)}
+.etape-num{font-size:11px;letter-spacing:.16em;color:var(--texte-doux);text-transform:uppercase;margin-bottom:30px}
+
+/* ---------- ecrans ---------- */
+.ecran{display:none;flex:1;animation:entre .55s cubic-bezier(.22,1,.36,1) both}
+.ecran.actif{display:flex;flex-direction:column}
+@keyframes entre{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.ecran{animation:none}*{transition:none!important}}
+
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,8vw,42px);line-height:1.16;
+  color:var(--creme);margin-bottom:18px;letter-spacing:-.01em}
+h2{font-family:var(--serif);font-weight:500;font-size:clamp(21px,5.4vw,27px);line-height:1.3;
+  color:var(--creme);margin-bottom:22px}
+.chapo{color:var(--texte-doux);font-size:15.5px;margin-bottom:14px}
+.filet{width:64px;height:2px;background:var(--or);margin:22px 0;border-radius:2px}
+.note{font-size:13px;color:var(--texte-doux);margin-top:14px;font-style:italic;font-family:var(--serif)}
+
+/* ---------- choix ---------- */
+.choix{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.opt{display:block;width:100%;text-align:left;background:rgba(242,230,206,.035);
+  border:1px solid rgba(242,230,206,.14);border-radius:11px;padding:16px 17px;
+  color:var(--texte);font-family:var(--sans);font-size:15.5px;font-weight:300;line-height:1.45;
+  cursor:pointer;transition:background .22s,border-color .22s,transform .12s}
+.opt:hover{background:rgba(242,230,206,.07);border-color:rgba(201,162,39,.5)}
+.opt:active{transform:scale(.985)}
+.opt:focus-visible{outline:2px solid var(--or);outline-offset:2px}
+.opt.pris{background:rgba(201,162,39,.13);border-color:var(--or)}
+
+/* ---------- champs ---------- */
+label.lab{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--texte-doux);margin-bottom:9px}
+input,textarea,select{width:100%;background:rgba(242,230,206,.05);border:1px solid rgba(242,230,206,.18);
+  border-radius:10px;padding:14px 15px;color:var(--texte);font-family:var(--sans);font-size:16px;font-weight:300}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--or);background:rgba(242,230,206,.08)}
+textarea{resize:vertical;min-height:96px}
+select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%23C9A227' stroke-width='1.6' fill='none'/></svg>");
+  background-repeat:no-repeat;background-position:right 14px center}
+.date-ligne{display:grid;grid-template-columns:1fr 1.5fr 1.1fr;gap:9px}
+.case{display:flex;gap:11px;align-items:flex-start;margin-top:18px;font-size:13px;color:var(--texte-doux)}
+.case input{width:19px;height:19px;flex:0 0 19px;margin-top:2px;accent-color:var(--or)}
+.case a{color:var(--or)}
+
+/* ---------- boutons ---------- */
+.actions{display:flex;gap:12px;align-items:center;margin-top:26px;flex-wrap:wrap}
+.btn{background:var(--or);color:#0B1524;border:none;border-radius:10px;padding:15px 30px;
+  font-family:var(--sans);font-size:15px;font-weight:500;letter-spacing:.03em;cursor:pointer;
+  transition:background .2s,transform .12s}
+.btn:hover{background:var(--or-clair)}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{opacity:.34;cursor:not-allowed}
+.btn-fant{background:none;color:var(--texte-doux);border:1px solid rgba(242,230,206,.2)}
+.btn-fant:hover{background:rgba(242,230,206,.06);color:var(--texte)}
+.lien-retour{background:none;border:none;color:var(--texte-doux);font-family:var(--sans);
+  font-size:13.5px;cursor:pointer;padding:6px 0}
+.lien-retour:hover{color:var(--or)}
+.err{color:#E88A7A;font-size:13.5px;margin-top:11px;min-height:19px}
+
+/* ---------- resultat ---------- */
+#resultat h1{font-size:clamp(26px,6.6vw,34px)}
+.calcul{display:flex;flex-wrap:wrap;gap:9px;margin:4px 0 24px}
+.jeton{border:1px solid rgba(201,162,39,.45);border-radius:999px;padding:7px 15px;
+  font-size:12.5px;letter-spacing:.09em;color:var(--or);background:rgba(201,162,39,.07)}
+.bloc{margin:0 0 26px}
+.bloc .titre{font-size:11px;letter-spacing:.19em;text-transform:uppercase;color:var(--or);
+  margin-bottom:11px;display:flex;align-items:center;gap:10px}
+.bloc .titre::after{content:"";flex:1;height:1px;background:rgba(201,162,39,.28)}
+.bloc p{font-size:16px;margin-bottom:11px}
+.bloc p:last-child{margin-bottom:0}
+.encadre{border-left:2px solid var(--or);padding:16px 0 16px 18px;background:rgba(201,162,39,.06);
+  border-radius:0 10px 10px 0;margin:6px 0 10px}
+.encadre .date-cle{font-family:var(--serif);font-size:clamp(21px,5.4vw,26px);color:var(--creme);
+  display:block;margin-bottom:9px;line-height:1.28}
+.reserve{border:1px solid rgba(242,230,206,.16);border-radius:12px;padding:20px;margin-top:6px;
+  background:rgba(10,21,36,.5)}
+.envoi{font-size:13.5px;color:var(--texte-doux);margin-top:22px;padding-top:20px;
+  border-top:1px solid rgba(242,230,206,.12)}
+
+footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-between;
+  align-items:center;gap:14px;flex-wrap:wrap}
+.devise{font-size:12px;letter-spacing:.15em;color:var(--texte-doux)}
+.mentions a{color:var(--texte-doux);font-size:12px;text-decoration:none;margin-left:14px}
+.mentions a:hover{color:var(--or)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="grille" aria-hidden="true"></div>
+<svg class="rose-fond" viewBox="0 0 400 400" aria-hidden="true"><g id="rose-src" fill="none" stroke="#C9A227" stroke-width="1.1">
+  <circle cx="200" cy="200" r="186"/><circle cx="200" cy="200" r="134"/><circle cx="200" cy="200" r="19"/>
+  <g id="grads"></g>
+  <path d="M200 66V200M200 200v134M66 200h134M200 200h134" stroke-opacity=".85"/>
+  <path d="M200 200 105 105M200 200l95-95M200 200l95 95M200 200l-95 95" stroke-opacity=".45"/>
+</g></svg>
+
+<div class="enveloppe">
+  <header>
+    <div class="marque">Le Cartographe</div>
+    <div class="coord">16°15&rsquo;N — 61°35&rsquo;W</div>
+  </header>
+
+  <div id="progression" hidden>
+    <div class="jauge"><span id="jauge-barre"></span></div>
+    <div class="etape-num" id="etape-num">Question 1 sur 9</div>
+  </div>
+
+  <!-- ========== ACCUEIL ========== -->
+  <section class="ecran actif" id="ecr-0">
+    <h1>Le Relevé express</h1>
+    <p class="chapo">Huit questions. Quatre-vingt-dix secondes.</p>
+    <p class="chapo">Vous repartez avec votre relief, votre porte, et une date à vérifier.</p>
+    <div class="filet"></div>
+    <p class="chapo">Ce n&rsquo;est pas un test de personnalité. Ça se calcule.</p>
+    <div class="actions"><button class="btn" data-va="1">Commencer le relevé</button></div>
+  </section>
+
+  <!-- ========== QUESTIONS ========== -->
+  <section class="ecran" id="ecr-1">
+    <h2>Votre prénom</h2>
+    <label class="lab" for="prenom">Prénom</label>
+    <input id="prenom" type="text" autocomplete="given-name" enterkeyhint="next" placeholder="Xavier">
+    <p class="err" id="err-1"></p>
+    <div class="actions"><button class="btn" data-va="2">Continuer</button>
+      <button class="lien-retour" data-va="0">Retour</button></div>
+  </section>
+
+  <section class="ecran" id="ecr-2">
+    <h2>Votre date de naissance</h2>
+    <p class="chapo">Sans elle, il n&rsquo;y a rien à relever. Le reste du questionnaire ne fait que préciser le terrain ; c&rsquo;est cette date qui le dessine.</p>
+    <div class="date-ligne">
+      <select id="n-jour" aria-label="Jour"></select>
+      <select id="n-mois" aria-label="Mois"></select>
+      <select id="n-annee" aria-label="Année"></select>
+    </div>
+    <p class="err" id="err-2"></p>
+    <div class="actions"><button class="btn" data-va="3">Continuer</button>
+      <button class="lien-retour" data-va="1">Retour</button></div>
+  </section>
+
+  <section class="ecran" id="ecr-3">
+    <h2>En ce moment, où se situe la tension&nbsp;?</h2>
+    <div class="choix" data-q="relief">
+      <button class="opt" data-v="crete">Dans mon activité, mon travail</button>
+      <button class="opt" data-v="faille">Dans une décision que je repousse</button>
+      <button class="opt" data-v="versant">Dans un rapport à quelqu&rsquo;un — associé, équipe, famille</button>
+      <button class="opt" data-v="brouillard">Dans quelque chose que je n&rsquo;arrive pas encore à nommer</button>
+    </div>
+    <div class="actions"><button class="lien-retour" data-va="2">Retour</button></div>
+  </section>
+
+  <section class="ecran" id="ecr-4">
+    <h2>Quand vous devez trancher, qu&rsquo;est-ce qui se passe réellement&nbsp;?</h2>
+    <div class="choix" data-q="porte">
+      <button class="opt" data-v="passe">Je décide vite, et je doute après</button>
+      <button class="opt" data-v="gue">Je pèse longtemps, et je finis par ne pas trancher</button>
+      <button class="opt" data-v="col">J&rsquo;attends que quelqu&rsquo;un me confirme</button>
+      <button class="opt" data-v="seuil">Je sais déjà, mais je n&rsquo;ose pas</button>
+    </div>
+    <div class="actions"><button class="lien-retour" data-va="3">Retour</button></div>
+  </section>
+
+  <section class="ecran" id="ecr-5">
+    <h2>Depuis combien de temps ça dure&nbsp;?</h2>
+    <div class="choix" data-q="duree">
+      <button class="opt" data-v="court">Moins de trois mois</button>
+      <button class="opt" data-v="moyen">Entre trois mois et un an</button>
+      <button class="opt" data-v="long">Un à trois ans</button>
+      <button class="opt" data-v="tres_long">Plus longtemps que je ne veux l&rsquo;admettre</button>
+    </div>
+    <div class="actions"><button class="lien-retour" data-va="4">Retour</button></div>
+  </section>
+
+  <section class="ecran" id="ecr-6">
+    <h2>Qu&rsquo;est-ce qui a changé chez vous ces douze derniers mois&nbsp;?</h2>
+    <div class="choix" data-q="mouvement">
+      <button class="opt" data-v="rien">Rien, et c&rsquo;est précisément ce qui m&rsquo;inquiète</button>
+      <button class="opt" data-v="trop">Beaucoup, et trop vite</button>
+      <button class="opt" data-v="arret">J&rsquo;ai arrêté quelque chose</button>
+      <button class="opt" data-v="debut">J&rsquo;ai commencé quelque chose</button>
+    </div>
+    <div class="actions"><button class="lien-retour" data-va="5">Retour</button></div>
+  </section>
+
+  <section class="ecran" id="ecr-7">
+    <h2>Si rien ne bouge d&rsquo;ici un an&nbsp;?</h2>
+    <div class="choix" data-q="enjeu">
+      <button class="opt" data-v="tenable">Ce sera tenable</button>
+      <button class="opt" data-v="couteux">Ce sera coûteux, mais je ferai avec</button>
+      <button class="opt" data-v="casse">Quelque chose va casser</button>
+      <button class="opt" data-v="evite">Je ne veux pas y penser</button>
+    </div>
+    <div class="actions"><button class="lien-retour" data-va="6">Retour</button></div>
+  </section>
+
+  <section class="ecran" id="ecr-8">
+    <h2>En une phrase&nbsp;: la décision que vous portez en ce moment</h2>
+    <p class="chapo">Facultatif. Mais si vous l&rsquo;écrivez, je la lis.</p>
+    <textarea id="phrase" maxlength="200" placeholder="Une phrase suffit."></textarea>
+    <div class="actions"><button class="btn" data-va="9">Continuer</button>
+      <button class="lien-retour" data-va="7">Retour</button></div>
+  </section>
+
+  <section class="ecran" id="ecr-9">
+    <h2>Où vous envoyer le relevé&nbsp;?</h2>
+    <p class="chapo">Le relevé s&rsquo;affiche tout de suite. L&rsquo;adresse sert à vous l&rsquo;envoyer, et à rien d&rsquo;autre.</p>
+    <label class="lab" for="email">Adresse électronique</label>
+    <input id="email" type="email" autocomplete="email" inputmode="email" enterkeyhint="done" placeholder="vous@exemple.fr">
+    <label class="case"><input type="checkbox" id="rgpd">
+      <span>J&rsquo;accepte de recevoir mon relevé et les messages du Cartographe. Je peux me désinscrire à tout moment. <a href="/confidentialite.html">Politique de confidentialité</a></span></label>
+    <p class="err" id="err-9"></p>
+    <div class="actions"><button class="btn" id="btn-final">Afficher mon relevé</button>
+      <button class="lien-retour" data-va="8">Retour</button></div>
+  </section>
+
+  <!-- ========== RESULTAT ========== -->
+  <section class="ecran" id="resultat">
+    <h1 id="r-titre">Votre relevé</h1>
+    <div class="calcul" id="r-jetons"></div>
+
+    <div class="bloc"><div class="titre">Ce que la date donne</div><div id="r-date"></div></div>
+    <div class="bloc"><div class="titre">Ce que vous avez dit</div><div id="r-dit"></div></div>
+    <div class="bloc"><div class="titre">La convergence</div><div id="r-conv"></div></div>
+    <div class="bloc"><div class="titre">La date à vérifier</div>
+      <div class="encadre" id="r-bascule"></div>
+      <p class="note">Si vous ne voyez rien&nbsp;: c&rsquo;est une information, pas un échec du relevé.</p>
+    </div>
+    <div class="bloc"><div class="titre">Ce que je ne peux pas poser d&rsquo;ici</div>
+      <div class="reserve" id="r-reserve"></div></div>
+
+    <p class="envoi" id="r-envoi">Votre relevé part à l&rsquo;instant sur votre adresse.</p>
+  </section>
+
+  <footer>
+    <div class="devise">Respire · Écoute · Agis</div>
+    <div class="mentions"><a href="/mentions-legales.html">Mentions légales</a><a href="/cgv.html">CGV</a></div>
+  </footer>
+</div>
+
+<script>
+/* ============ rose des vents : 22 graduations ============ */
+(function(){
+  const g=document.getElementById('grads');
+  for(let i=0;i<22;i++){
+    const a=2*Math.PI*i/22-Math.PI/2, lg=(i%11===0), r0=lg?150:164;
+    const l=document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1',200+r0*Math.cos(a)); l.setAttribute('y1',200+r0*Math.sin(a));
+    l.setAttribute('x2',200+186*Math.cos(a)); l.setAttribute('y2',200+186*Math.sin(a));
+    l.setAttribute('stroke-opacity',lg?'1':'.6'); g.appendChild(l);
+  }
+})();
+
+/* ============ RENOMMAGE : reliefs et portes ============ */
+const RELIEFS={
+  crete:{nom:'La Crête', dit:'la tension se tient dans votre activité — là où vous produisez, là où l\u2019on vous attend.'},
+  faille:{nom:'La Faille', dit:'la tension se tient dans une décision que vous repoussez.'},
+  versant:{nom:'Le Versant', dit:'la tension se tient dans un rapport à quelqu\u2019un.'},
+  brouillard:{nom:'Le Brouillard', dit:'la tension se tient quelque part que vous n\u2019arrivez pas encore à nommer.'}
+};
+const PORTES={
+  passe:{nom:'La Passe', symptome:'vous décidez vite et vous doutez après', faux:'de l\u2019impulsivité'},
+  gue:{nom:'Le Gué', symptome:'vous pesez longtemps et vous finissez par ne pas trancher', faux:'de l\u2019indécision'},
+  col:{nom:'Le Col', symptome:'vous attendez que quelqu\u2019un vous confirme', faux:'un manque de confiance'},
+  seuil:{nom:'Le Seuil', symptome:'vous savez déjà, mais vous n\u2019osez pas', faux:'un manque de courage'}
+};
+
+/* ============ chemin de vie ============ */
+const CV={
+  1:'Un chemin de vie 1 pose le terrain de quelqu\u2019un qui ouvre. Qui va devant, souvent seul, et à qui on demande ensuite pourquoi il n\u2019attend pas.',
+  2:'Un chemin de vie 2 pose le terrain de quelqu\u2019un qui perçoit avant les autres. Cette finesse a un coût : elle capte aussi ce qui ne le regarde pas.',
+  3:'Un chemin de vie 3 pose le terrain de quelqu\u2019un qui exprime. La parole vient facilement — ce qui rend le silence, quand il s\u2019impose, particulièrement difficile à tenir.',
+  4:'Un chemin de vie 4 pose le terrain de quelqu\u2019un qui construit. La structure rassure, et la même structure enferme quand elle n\u2019est plus interrogée.',
+  5:'Un chemin de vie 5 pose le terrain de quelqu\u2019un qui a besoin d\u2019air. L\u2019immobilité y coûte plus cher qu\u2019ailleurs.',
+  6:'Un chemin de vie 6 pose le terrain de quelqu\u2019un vers qui les autres se tournent. On y porte, souvent sans avoir été consulté.',
+  7:'Un chemin de vie 7 pose le terrain de quelqu\u2019un qui cherche à comprendre avant d\u2019agir. Le retrait y est une méthode, pas une fuite — sauf quand il dure.',
+  8:'Un chemin de vie 8 pose le terrain de quelqu\u2019un qui compose avec le pouvoir et la matière. Les enjeux y sont rarement petits.',
+  9:'Un chemin de vie 9 pose le terrain de quelqu\u2019un qui termine ce que d\u2019autres ont laissé ouvert. On y solde beaucoup.',
+  11:'Un chemin de vie 11 pose un terrain à haute tension. La perception y est en avance sur les mots, ce qui rend l\u2019explication épuisante.',
+  22:'Un chemin de vie 22 pose le terrain du bâtisseur. L\u2019échelle des projets y dépasse souvent ce que l\u2019entourage juge raisonnable.',
+  33:'Un chemin de vie 33 pose un terrain de transmission. Ce qui est porté l\u2019est rarement pour soi seul.'
+};
+
+/* ============ annee personnelle ============ */
+const AP={
+  1:{nature:'ouverture', vrai:'une année 1 ne consolide pas — elle amorce, et l\u2019amorce est toujours mal assurée'},
+  2:{nature:'lenteur',   vrai:'une année 2 ne se force pas — elle mûrit, et le mûrissement ressemble beaucoup à l\u2019immobilité'},
+  3:{nature:'dispersion',vrai:'une année 3 ouvre plusieurs directions à la fois — le doute y est un effet du nombre, pas du jugement'},
+  4:{nature:'travail',   vrai:'une année 4 demande de poser des fondations — et poser des fondations ne produit rien de visible pendant longtemps'},
+  5:{nature:'mouvement', vrai:'une année 5 pousse au déplacement — rester en place y devient physiquement coûteux'},
+  6:{nature:'charge',    vrai:'une année 6 ramène vers les autres — ce qui vous appartient en propre y devient difficile à distinguer'},
+  7:{nature:'retrait',   vrai:'une année 7 demande du recul — et le recul se confond aisément avec le blocage'},
+  8:{nature:'engagement',vrai:'une année 8 met des enjeux réels sur la table — l\u2019hésitation y est proportionnelle à ce qui est en jeu'},
+  9:{nature:'fin',       vrai:'une année 9 ne se démarre pas — elle se termine, et on ne tranche pas de la même manière selon qu\u2019on ouvre ou qu\u2019on solde'}
+};
+
+const SIGNES=[[1,20,'Capricorne'],[2,19,'Verseau'],[3,21,'Poissons'],[4,20,'Bélier'],[5,21,'Taureau'],
+  [6,21,'Gémeaux'],[7,23,'Cancer'],[8,23,'Lion'],[9,23,'Vierge'],[10,23,'Balance'],
+  [11,22,'Scorpion'],[12,22,'Sagittaire'],[12,32,'Capricorne']];
+const MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+
+function reduire(n){ while(n>9 && n!==11 && n!==22 && n!==33){ n=String(n).split('').reduce((s,c)=>s+ +c,0);} return n; }
+function cheminDeVie(j,m,a){ return reduire((''+j+m+a).split('').reduce((s,c)=>s+ +c,0)); }
+function signe(j,m){ for(const [mm,jj,nom] of SIGNES){ if(m<mm||(m===mm&&j<jj)) return nom; } return 'Capricorne'; }
+
+/* annee personnelle ancree sur l'anniversaire */
+function anneePerso(j,m){
+  const now=new Date(), an=now.getFullYear();
+  const passe = (now.getMonth()+1>m)||(now.getMonth()+1===m && now.getDate()>=j);
+  const ref = passe?an:an-1;
+  const val = reduire((''+j+m+ref).split('').reduce((s,c)=>s+ +c,0));
+  return { valeur: val>9?reduire(String(val).split('').reduce((s,c)=>s+ +c,0)):val, anneeRef:ref };
+}
+
+/* ============ etat et navigation ============ */
+const R={};
+let ecranCourant=0;
+const ORDRE=['ecr-0','ecr-1','ecr-2','ecr-3','ecr-4','ecr-5','ecr-6','ecr-7','ecr-8','ecr-9'];
+
+function aller(i){
+  document.querySelectorAll('.ecran').forEach(e=>e.classList.remove('actif'));
+  document.getElementById(ORDRE[i]).classList.add('actif');
+  ecranCourant=i;
+  const prog=document.getElementById('progression');
+  prog.hidden = (i===0);
+  if(i>0){
+    document.getElementById('jauge-barre').style.width = Math.round(i/9*100)+'%';
+    document.getElementById('etape-num').textContent = 'Question '+i+' sur 9';
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.querySelectorAll('[data-va]').forEach(b=>b.addEventListener('click',()=>{
+  const cible=+b.dataset.va;
+  if(cible>ecranCourant && !valider(ecranCourant)) return;
+  aller(cible);
+}));
+
+document.querySelectorAll('.choix').forEach(g=>{
+  g.querySelectorAll('.opt').forEach(o=>o.addEventListener('click',()=>{
+    g.querySelectorAll('.opt').forEach(x=>x.classList.remove('pris'));
+    o.classList.add('pris');
+    R[g.dataset.q]=o.dataset.v;
+    setTimeout(()=>aller(ecranCourant+1),260);
+  }));
+});
+
+function valider(i){
+  if(i===1){
+    const v=document.getElementById('prenom').value.trim();
+    document.getElementById('err-1').textContent = v?'':'Votre prénom, simplement.';
+    if(!v) return false; R.prenom=v; return true;
+  }
+  if(i===2){
+    const j=+document.getElementById('n-jour').value, m=+document.getElementById('n-mois').value, a=+document.getElementById('n-annee').value;
+    const d=new Date(a,m-1,j), ok = j&&m&&a && d.getDate()===j && d.getMonth()===m-1;
+    document.getElementById('err-2').textContent = ok?'':'Cette date n\u2019existe pas. Vérifiez le jour.';
+    if(!ok) return false;
+    R.j=j; R.m=m; R.a=a; return true;
+  }
+  if(i===8){ R.phrase=document.getElementById('phrase').value.trim(); return true; }
+  return true;
+}
+
+/* selects de date */
+(function(){
+  const sj=document.getElementById('n-jour'), sm=document.getElementById('n-mois'), sa=document.getElementById('n-annee');
+  sj.innerHTML='<option value="">Jour</option>'; sm.innerHTML='<option value="">Mois</option>'; sa.innerHTML='<option value="">Année</option>';
+  for(let d=1;d<=31;d++) sj.add(new Option(d,d));
+  MOIS.forEach((n,i)=>sm.add(new Option(n,i+1)));
+  const an=new Date().getFullYear();
+  for(let y=an-16;y>=an-95;y--) sa.add(new Option(y,y));
+})();
+
+/* ============ generation du releve ============ */
+document.getElementById('btn-final').addEventListener('click', async ()=>{
+  const em=document.getElementById('email').value.trim();
+  const ok=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em);
+  const consent=document.getElementById('rgpd').checked;
+  const e=document.getElementById('err-9');
+  if(!ok){ e.textContent='Cette adresse ne semble pas valide.'; return; }
+  if(!consent){ e.textContent='Il me faut votre accord pour vous écrire.'; return; }
+  e.textContent=''; R.email=em;
+
+  const cv=cheminDeVie(R.j,R.m,R.a);
+  const ap=anneePerso(R.j,R.m);
+  const sg=signe(R.j,R.m);
+  const rel=RELIEFS[R.relief], por=PORTES[R.porte];
+  const apd=AP[ap.valeur]||AP[9];
+
+  document.getElementById('r-titre').textContent = R.prenom+', voici votre relevé.';
+  document.getElementById('r-jetons').innerHTML =
+    ['Chemin de vie '+cv, 'Année personnelle '+ap.valeur, sg, rel.nom, por.nom]
+      .map(t=>'<span class="jeton">'+t+'</span>').join('');
+
+  document.getElementById('r-date').innerHTML =
+    '<p>'+CV[cv]+'</p><p>Vous êtes en <strong>année personnelle '+ap.valeur+'</strong> — une année de '+apd.nature+'.</p>';
+
+  document.getElementById('r-dit').innerHTML =
+    '<p>Vous avez répondu que '+rel.dit+'</p><p>Et que, lorsqu\u2019il faut trancher, '+por.symptome+'.</p>';
+
+  document.getElementById('r-conv').innerHTML =
+    '<p>Une année '+ap.valeur+' est une année de '+apd.nature+'. Et vous me dites que '+por.symptome+'.</p>'+
+    '<p>Ce n\u2019est peut-être pas '+por.faux+'. C\u2019est que '+apd.vrai+'.</p>'+
+    '<p>Ce que vous prenez pour un défaut de caractère est peut-être un calendrier qui n\u2019est pas le vôtre.</p>';
+
+  const dBasc=new Date(ap.anneeRef, R.m-1, R.j);
+  document.getElementById('r-bascule').innerHTML =
+    '<span class="date-cle">Votre année a basculé le '+R.j+'&nbsp;'+MOIS[R.m-1]+'&nbsp;'+ap.anneeRef+'.</span>'+
+    '<p>Repensez à ce qui s\u2019est passé chez vous dans les trois semaines autour de cette date. Une décision, un renoncement, une fatigue soudaine, un silence.</p>';
+
+  document.getElementById('r-reserve').innerHTML =
+    '<p>Il me manque votre heure et votre lieu de naissance. Sans eux, je vois le terrain mais pas la manière dont vous y circulez.</p>'+
+    '<p>C\u2019est la différence entre savoir qu\u2019il y a une pente, et savoir de quel côté vous tombez quand vous êtes fatigué.</p>';
+
+  aller(0);
+  document.querySelectorAll('.ecran').forEach(x=>x.classList.remove('actif'));
+  document.getElementById('progression').hidden=true;
+  document.getElementById('resultat').classList.add('actif');
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  /* envoi Brevo via la fonction Netlify */
+  try{
+    const rep = await fetch('/.netlify/functions/subscribe',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        email:R.email, PRENOM:R.prenom,
+        DATE_NAISSANCE: R.a+'-'+String(R.m).padStart(2,'0')+'-'+String(R.j).padStart(2,'0'),
+        CHEMIN_VIE:cv, ANNEE_PERSO:ap.valeur,
+        DATE_BASCULE: dBasc.getFullYear()+'-'+String(R.m).padStart(2,'0')+'-'+String(R.j).padStart(2,'0'),
+        SIGNE:sg, RELIEF:rel.nom, PORTE:por.nom,
+        DUREE:R.duree||'', MOUVEMENT:R.mouvement||'', ENJEU:R.enjeu||'', PHRASE:R.phrase||''
+      })
+    });
+    document.getElementById('r-envoi').textContent = rep.ok
+      ? 'Votre relevé part à l\u2019instant sur '+R.email+'. Le second paragraphe de lecture s\u2019y trouve — il n\u2019est pas sur cet écran.'
+      : 'Le relevé est affiché, mais l\u2019envoi n\u2019a pas abouti. Réessayez plus tard, ou écrivez-moi.';
+  }catch(err){
+    document.getElementById('r-envoi').textContent = 'Le relevé est affiché, mais l\u2019envoi n\u2019a pas abouti.';
+  }
+});
+</script>
+</body>
+</html>
