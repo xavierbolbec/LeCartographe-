@@ -259,6 +259,7 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
     <label class="case"><input type="checkbox" id="rgpd">
       <span>J&rsquo;accepte de recevoir mon relevé et les messages du Cartographe. Je peux me désinscrire à tout moment. <a href="/confidentialite.html">Politique de confidentialité</a></span></label>
     <p class="err" id="err-9"></p>
+    <p class="note" style="margin-top:6px">Le Relevé express est réservé aux personnes majeures.</p>
     <div class="actions"><button class="btn" id="btn-final">Afficher mon relevé</button>
       <button class="lien-retour" data-va="8">Retour</button></div>
   </section>
@@ -285,7 +286,7 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
 
   <footer>
     <div class="devise">Respire · Écoute · Agis</div>
-    <div class="mentions"><a href="/mentions-legales.html">Mentions légales</a><a href="/cgv.html">CGV</a></div>
+    <div class="mentions"><a href="/mentions-legales.html">Mentions légales</a><a href="/confidentialite.html">Confidentialité</a></div>
   </footer>
 </div>
 
@@ -462,6 +463,12 @@ function valider(i){
     const d=new Date(a,m-1,j), ok = j&&m&&a && d.getDate()===j && d.getMonth()===m-1;
     document.getElementById('err-2').textContent = ok?'':'Cette date n\u2019existe pas. Vérifiez le jour.';
     if(!ok) return false;
+    const auj=new Date(); let age=auj.getFullYear()-a; const ecart=(auj.getMonth()+1)-m;
+    if(ecart<0 || (ecart===0 && auj.getDate()<j)) age--;
+    if(age<18){
+      document.getElementById('err-2').textContent='Le relevé est réservé aux personnes majeures.';
+      return false;
+    }
     R.j=j; R.m=m; R.a=a; return true;
   }
   if(i===8){ R.phrase=document.getElementById('phrase').value.trim(); return true; }
@@ -475,7 +482,7 @@ function valider(i){
   for(let d=1;d<=31;d++) sj.add(new Option(d,d));
   MOIS.forEach((n,i)=>sm.add(new Option(n,i+1)));
   const an=new Date().getFullYear();
-  for(let y=an-16;y>=an-95;y--) sa.add(new Option(y,y));
+  for(let y=an-18;y>=an-95;y--) sa.add(new Option(y,y));
 })();
 
 /* ============ generation du releve ============ */
