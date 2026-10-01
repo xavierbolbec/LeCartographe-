@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Votre questionnaire · Le Cartographe</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--nuit:#0E1B2E;--nuit-2:#0A1524;--nuit-3:#152740;--or:#C9A227;--or-clair:#E3C25C;--creme:#F2E6CE;--texte:#E8E2D4;--texte-doux:#A9B8CA;
+  --ligne:rgba(242,230,206,.16);--serif:'Lora',Georgia,serif;--sans:'Poppins',-apple-system,BlinkMacSystemFont,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--nuit);color:var(--texte);font-family:var(--sans);font-weight:300;line-height:1.65;min-height:100vh;
+  background-image:radial-gradient(ellipse 120% 90% at 50% 30%,var(--nuit-3),var(--nuit) 52%,var(--nuit-2) 100%);background-attachment:fixed}
+.enveloppe{max-width:640px;margin:0 auto;padding:22px 16px calc(56px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}
+.marque{font-family:var(--serif);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--creme);text-decoration:none}
+.coord{font-size:11px;letter-spacing:.13em;color:var(--or);white-space:nowrap}
+.progression{margin:0 0 18px}
+.progression .jauge{height:2px;background:rgba(242,230,206,.12);border-radius:2px;overflow:hidden}
+.progression .jauge span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--or),var(--or-clair));transition:width .4s}
+.progression .info{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--texte-doux);margin-top:8px}
+.pan{background:#13233A;border:1px solid rgba(201,162,39,.28);border-radius:6px;padding:34px 20px 30px;margin:0 -8px 18px}
+.centre{text-align:center}
+.sep{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 auto 18px}
+.sep i{display:block;width:54px;height:1px;background:var(--or)}
+.sep svg{width:12px;height:12px}
+.sur{font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--or);margin-bottom:12px}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(28px,7.5vw,36px);line-height:1.18;color:var(--creme);margin-bottom:14px}
+h2{font-family:var(--serif);font-weight:500;font-size:clamp(22px,6vw,26px);line-height:1.3;color:var(--creme);margin-bottom:10px}
+.it{font-family:var(--serif);font-style:italic;font-size:16.5px;line-height:1.6;color:var(--texte-doux)}
+.duree{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--texte-doux);margin-top:16px}
+.encart{background:#1B2F4C;border-left:2px solid var(--or);border-radius:5px;padding:16px;margin:18px 0 4px;font-size:14.5px;line-height:1.7;text-align:left}
+.champ{margin-top:26px;text-align:left}
+.champ label.q{display:block;font-family:var(--serif);font-size:17.5px;line-height:1.45;color:var(--creme);margin-bottom:6px}
+.champ label.q .obl{color:var(--or);font-family:var(--sans);font-size:12px;margin-left:4px}
+.aide{font-size:13px;line-height:1.55;color:var(--texte-doux);margin-bottom:10px}
+input[type=text],input[type=email],textarea,select{width:100%;background:rgba(10,21,36,.65);border:1px solid var(--ligne);border-radius:8px;color:var(--creme);
+  font:inherit;font-size:16px;padding:12px 13px;outline:none;transition:border-color .2s}
+textarea{resize:vertical;line-height:1.55}
+input:focus,textarea:focus,select:focus{border-color:var(--or)}
+select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--or) 50%),linear-gradient(135deg,var(--or) 50%,transparent 50%);
+  background-position:calc(100% - 18px) 52%,calc(100% - 13px) 52%;background-size:5px 5px;background-repeat:no-repeat;padding-right:32px}
+.trois{display:grid;grid-template-columns:1fr 1.3fr 1.1fr;gap:8px}
+.ligne-heure{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.ligne-heure input[type=time]{width:150px;background:rgba(10,21,36,.65);border:1px solid var(--ligne);border-radius:8px;color:var(--creme);font:inherit;font-size:16px;padding:11px 12px;color-scheme:dark}
+.coche{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;cursor:pointer;line-height:1.5}
+.coche input{accent-color:var(--or);width:18px;height:18px;flex:none;margin-top:2px}
+.choix{display:grid;gap:9px}
+.choix label{display:flex;align-items:center;gap:12px;border:1px solid var(--ligne);border-radius:8px;padding:12px 14px;cursor:pointer;font-size:15px}
+.choix input{accent-color:var(--or);width:18px;height:18px}
+.choix label:has(input:checked){border-color:var(--or);background:rgba(201,162,39,.08);color:var(--creme)}
+.err{display:none;color:#E8A04E;font-size:13.5px;margin-top:7px}
+.champ.invalide .err{display:block}
+.champ.invalide input,.champ.invalide textarea,.champ.invalide select{border-color:#E8A04E}
+.nav{display:flex;gap:10px;margin-top:30px}
+.btn{flex:1;display:block;text-align:center;background:var(--or);color:var(--nuit);border:1px solid var(--or);border-radius:8px;font:inherit;font-weight:500;font-size:14.5px;
+  letter-spacing:.06em;text-transform:uppercase;padding:15px 14px;cursor:pointer;text-decoration:none}
+.btn.contour{flex:0 0 auto;background:transparent;color:var(--or)}
+.btn[disabled]{opacity:.6;cursor:wait}
+.enreg{font-size:12px;color:var(--texte-doux);text-align:center;margin-top:12px;min-height:18px}
+.ecran{display:none}.ecran.actif{display:block}
+.pot{position:absolute;left:-9999px;opacity:0;height:0;width:0}
+footer{margin-top:40px;padding-top:22px;border-top:1px solid rgba(242,230,206,.12);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.devise{font-size:12px;letter-spacing:.15em;color:var(--texte-doux)}
+footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left:14px}
+a{color:var(--or)}
+</style>
+</head>
+<body>
+<div class="enveloppe">
+<header>
+  <a class="marque" href="/">Le Cartographe</a>
+  <div class="coord">16°15&rsquo;N &mdash; 61°35&rsquo;W</div>
+</header>
+
+<div class="progression" id="progression" hidden><div class="jauge"><span id="jauge"></span></div><div class="info"><span id="etape"></span><span id="pct"></span></div></div>
+
+<main id="ecrans"></main>
+<p class="enreg" id="enreg"></p>
+
+<footer>
+  <div class="devise">Respire · Écoute · Agis</div>
+  <div><a href="/mentions-legales">Mentions légales</a><a href="/cgv">CGV</a><a href="/confidentialite">Confidentialité</a></div>
+</footer>
+</div>
+
+<script src="/questionnaire-contenu.js"></script>
+<script>
+(function(){
+  var SEP='<div class="sep"><i></i><svg viewBox="0 0 12 12"><path d="M6 0l1.4 4.6L12 6l-4.6 1.4L6 12l-1.4-4.6L0 6l4.6-1.4z" fill="#C9A227"/></svg><i></i></div>';
+  var MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  var cle=(new URLSearchParams(location.search).get('offre')||'').toLowerCase();
+  var F=Q[cle];
+  var main=document.getElementById('ecrans');
+  if(!F){main.innerHTML='<section class="ecran actif"><div class="pan centre">'+SEP+'<h1>Questionnaire introuvable</h1><p class="it">Utilisez le lien reçu après votre paiement, ou écrivez-moi à <a href="mailto:xavier.bolbec@gmail.com">xavier.bolbec@gmail.com</a>.</p></div></section>';return;}
+  document.title='Questionnaire · '+F.nom+' · Le Cartographe';
+
+  var STOCK='cartographe-questionnaire-'+cle, R={};
+  try{R=JSON.parse(localStorage.getItem(STOCK)||'{}')||{};}catch(e){R={};}
+  function sauver(){try{localStorage.setItem(STOCK,JSON.stringify(R));document.getElementById('enreg').textContent='Réponses enregistrées sur cet appareil';}catch(e){}}
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function visible(q){return !q.si || R[q.si.id]===q.si.val;}
+
+  function champ(q){
+    var h='<div class="champ" data-id="'+q.id+'"'+(q.si?' data-si="'+q.si.id+'"':'')+(visible(q)?'':' hidden')+'>';
+    h+='<label class="q" for="f-'+q.id+'">'+esc(q.label)+(q.requis?'<span class="obl">obligatoire</span>':'')+'</label>';
+    if(q.aide) h+='<p class="aide">'+esc(q.aide)+'</p>';
+    var v=R[q.id]||'';
+    if(q.type==='textarea') h+='<textarea id="f-'+q.id+'" rows="'+(q.lignes||3)+'">'+esc(v)+'</textarea>';
+    else if(q.type==='text'||q.type==='email') h+='<input id="f-'+q.id+'" type="'+q.type+'"'+(q.auto?' autocomplete="'+q.auto+'"':'')+' value="'+esc(v)+'">';
+    else if(q.type==='date'){
+      var p=(v||'--').split('-'),an=new Date().getFullYear(),j='<option value="">Jour</option>',m='<option value="">Mois</option>',a='<option value="">Année</option>';
+      for(var d=1;d<=31;d++) j+='<option'+(+p[2]===d?' selected':'')+'>'+d+'</option>';
+      MOIS.forEach(function(n,i){m+='<option value="'+(i+1)+'"'+(+p[1]===i+1?' selected':'')+'>'+n+'</option>';});
+      for(var y=an-18;y>=an-100;y--) a+='<option'+(+p[0]===y?' selected':'')+'>'+y+'</option>';
+      h+='<div class="trois"><select id="f-'+q.id+'-j" aria-label="Jour">'+j+'</select><select id="f-'+q.id+'-m" aria-label="Mois">'+m+'</select><select id="f-'+q.id+'-a" aria-label="Année">'+a+'</select></div>';
+    }
+    else if(q.type==='heure'){
+      var inc=(v==='inconnue');
+      h+='<div class="ligne-heure"><input id="f-'+q.id+'" type="time" value="'+(inc?'':esc(v))+'"'+(inc?' disabled':'')+'><label class="coche"><input type="checkbox" id="f-'+q.id+'-inc"'+(inc?' checked':'')+'> Je ne la connais pas</label></div>';
+    }
+    else if(q.type==='choix'){
+      h+='<div class="choix">'+q.options.map(function(o){return '<label><input type="radio" name="f-'+q.id+'" value="'+esc(o)+'"'+(v===o?' checked':'')+'> '+esc(o)+'</label>';}).join('')+'</div>';
+    }
+    h+='<p class="err"></p></div>';
+    return h;
+  }
+  function lire(q){
+    if(q.type==='date'){var j=document.getElementById('f-'+q.id+'-j').value,m=document.getElementById('f-'+q.id+'-m').value,a=document.getElementById('f-'+q.id+'-a').value;return (j&&m&&a)?a+'-'+String(m).padStart(2,'0')+'-'+String(j).padStart(2,'0'):'';}
+    if(q.type==='heure'){return document.getElementById('f-'+q.id+'-inc').checked?'inconnue':document.getElementById('f-'+q.id).value;}
+    if(q.type==='choix'){var c=document.querySelector('input[name="f-'+q.id+'"]:checked');return c?c.value:'';}
+    return document.getElementById('f-'+q.id).value.trim();
+  }
+
+  var S=F.sections, N=S.length, html='';
+  html+='<section class="ecran" id="e-intro"><div class="pan centre">'+SEP+'<p class="sur">Questionnaire · '+esc(F.nom)+'</p><h1>Votre questionnaire</h1><p class="it">'+esc(F.chapo)+'</p><p class="duree">'+esc(F.duree)+' · '+N+' parties</p>'+
+        '<div class="nav"><button class="btn" data-va="0" id="b-start">'+(Object.keys(R).length?'Reprendre où j’en étais':'Commencer')+'</button></div></div></section>';
+  S.forEach(function(s,i){
+    html+='<section class="ecran" id="e-'+i+'"><div class="pan">'+'<div class="centre">'+SEP+'<p class="sur">Partie '+(i+1)+' sur '+N+'</p><h2>'+esc(s.titre)+'</h2><p class="it">'+esc(s.intro)+'</p></div>'+
+          (s.scelle?'<div class="encart">Cette partie est conservée telle quelle et ne sera relue qu’au quatre-vingt-dixième jour, avec vous.</div>':'')+
+          s.questions.map(champ).join('')+
+          '<div class="nav">'+(i>0?'<button class="btn contour" data-va="'+(i-1)+'">Retour</button>':'<button class="btn contour" data-va="intro">Retour</button>')+
+          '<button class="btn" data-suite="'+i+'">'+(i<N-1?'Continuer':'Dernière étape')+'</button></div></div></section>';
+  });
+  html+='<section class="ecran" id="e-fin"><div class="pan">'+'<div class="centre">'+SEP+'<p class="sur">Dernière étape</p><h2>Avant l’envoi</h2><p class="it">Vous pourrez encore revenir en arrière pour relire vos réponses.</p></div>'+
+        '<div class="champ" data-id="c_exact"><label class="coche"><input type="checkbox" id="c_exact"> Les informations d’état civil sont exactes et recopiées de mon acte de naissance.</label><p class="err">Merci de vérifier puis de cocher cette case.</p></div>'+
+        '<div class="champ" data-id="c_majeur"><label class="coche"><input type="checkbox" id="c_majeur"> Je certifie être majeur.</label><p class="err">Le Cartographe est réservé aux personnes majeures.</p></div>'+
+        '<p class="aide" style="margin-top:18px">Vos réponses servent uniquement à établir votre lecture. Elles ne sont ni publiées ni transmises. <a href="/confidentialite">Confidentialité</a></p>'+
+        '<input class="pot" type="text" id="site" tabindex="-1" autocomplete="off" aria-hidden="true">'+
+        '<div class="nav"><button class="btn contour" data-va="'+(N-1)+'">Retour</button><button class="btn" id="b-envoi">Envoyer mes réponses</button></div><p class="err" id="err-envoi" style="text-align:center"></p></div></section>';
+  html+='<section class="ecran" id="e-merci"><div class="pan centre">'+SEP+'<p class="sur">'+esc(F.nom)+' · questionnaire reçu</p><h1>Merci. Vos réponses sont arrivées.</h1><p class="it" id="merci-txt"></p></div></section>';
+  main.innerHTML=html;
+
+  var DELAI={releve:'Votre Relevé vous parvient sous 7 jours, en PDF, à votre nom. Un accusé de réception part à l’instant sur votre adresse.',
+    cartographie:'Je reviens vers vous pour fixer notre séance de restitution, sous 14 jours. Un accusé de réception part à l’instant sur votre adresse.',
+    cap:'Je reviens vers vous pour fixer la suite de votre accompagnement. Un accusé de réception part à l’instant sur votre adresse.'};
+  document.getElementById('merci-txt').textContent=DELAI[cle];
+
+  function aller(id){
+    document.querySelectorAll('.ecran').forEach(function(e){e.classList.remove('actif');});
+    document.getElementById('e-'+id).classList.add('actif');
+    var pr=document.getElementById('progression'), n=(id==='fin')?N:(+id);
+    pr.hidden=(id==='intro'||id==='merci');
+    if(!pr.hidden){document.getElementById('jauge').style.width=Math.round(n/N*100)+'%';document.getElementById('etape').textContent=(id==='fin')?'Envoi':'Partie '+(n+1)+' sur '+N;document.getElementById('pct').textContent=Math.round(n/N*100)+' %';}
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function marquer(id,msg){var c=document.querySelector('.champ[data-id="'+id+'"]');if(!c)return;c.classList.toggle('invalide',!!msg);var e=c.querySelector('.err');if(e)e.textContent=msg||'';}
+  function valider(i){
+    var ok=true, premier=null;
+    S[i].questions.forEach(function(q){
+      if(!visible(q)){return;}
+      var v=lire(q), msg='';
+      if(q.requis && !v) msg = q.type==='date'?'Indiquez le jour, le mois et l’année.':'Cette réponse est nécessaire.';
+      if(!msg && q.type==='email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) msg='Cette adresse ne semble pas valide.';
+      if(!msg && q.type==='date' && v){var p=v.split('-'),d=new Date(+p[0],+p[1]-1,+p[2]);if(d.getDate()!==+p[2]) msg='Cette date n’existe pas. Vérifiez le jour.';}
+      marquer(q.id,msg); if(msg){ok=false; if(!premier) premier=q.id;}
+    });
+    if(premier){var c=document.querySelector('.champ[data-id="'+premier+'"]');c.scrollIntoView({behavior:'smooth',block:'center'});}
+    return ok;
+  }
+  main.addEventListener('input',function(ev){var c=ev.target.closest('.champ');if(!c||!c.dataset.id)return;var q=trouver(c.dataset.id);if(!q)return;R[q.id]=lire(q);marquer(q.id,'');sauver();});
+  main.addEventListener('change',function(ev){
+    var c=ev.target.closest('.champ');if(!c||!c.dataset.id)return;var q=trouver(c.dataset.id);if(!q)return;
+    if(q.type==='heure'){var inc=document.getElementById('f-'+q.id+'-inc').checked;document.getElementById('f-'+q.id).disabled=inc;}
+    R[q.id]=lire(q);marquer(q.id,'');sauver();
+    document.querySelectorAll('.champ[data-si="'+q.id+'"]').forEach(function(d){var dq=trouver(d.dataset.id);d.hidden=!visible(dq);});
+  });
+  function trouver(id){for(var i=0;i<S.length;i++)for(var j=0;j<S[i].questions.length;j++)if(S[i].questions[j].id===id)return S[i].questions[j];return null;}
+  main.addEventListener('click',function(ev){
+    var b=ev.target.closest('button');if(!b)return;
+    if(b.dataset.va!==undefined){aller(b.dataset.va);return;}
+    if(b.dataset.suite!==undefined){var i=+b.dataset.suite;if(!valider(i))return;aller(i<N-1?i+1:'fin');return;}
+    if(b.id==='b-envoi') envoyer(b);
+  });
+
+  function envoyer(b){
+    var ok=true;
+    ['c_exact','c_majeur'].forEach(function(id){var c=document.getElementById(id).checked;marquer(id,c?'':(id==='c_exact'?'Merci de vérifier puis de cocher cette case.':'Le Cartographe est réservé aux personnes majeures.'));if(!c)ok=false;});
+    if(!ok) return;
+    for(var i=0;i<N;i++){ if(!S[i].questions.every(function(q){return !visible(q)||!q.requis||R[q.id];})){aller(i);valider(i);return;} }
+    var sections=S.map(function(s){return {titre:s.titre, scelle:!!s.scelle, reponses:s.questions.filter(visible).map(function(q){var v=R[q.id]||'';if(q.type==='date'&&v){var p=v.split('-');v=(+p[2])+' '+MOIS[+p[1]-1]+' '+p[0];}if(q.type==='heure'&&v==='inconnue')v='Inconnue';return {id:q.id,question:q.label,reponse:v};})};});
+    b.disabled=true; b.textContent='Envoi en cours…';
+    var e=document.getElementById('err-envoi'); e.style.display='none';
+    fetch('/.netlify/functions/questionnaire',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({offre:cle, email:R.email||'', prenom:R.prenom_usage||'', site:document.getElementById('site').value, sections:sections})})
+    .then(function(r){if(!r.ok) throw new Error('http '+r.status);
+      try{localStorage.removeItem(STOCK);}catch(x){}
+      document.getElementById('enreg').textContent=''; aller('merci');})
+    .catch(function(){b.disabled=false;b.textContent='Envoyer mes réponses';e.style.display='block';
+      e.textContent='L’envoi n’a pas abouti. Vos réponses restent enregistrées sur cet appareil : réessayez dans un instant, ou écrivez-moi à xavier.bolbec@gmail.com.';});
+  }
+
+  if(Object.keys(R).length) document.getElementById('enreg').textContent='Réponses déjà enregistrées sur cet appareil';
+  aller('intro');
+})();
+</script>
+</body>
+</html>
