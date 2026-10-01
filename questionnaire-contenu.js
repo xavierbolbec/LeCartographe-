@@ -22,36 +22,30 @@ var Q = {};
 /* lecture numérologique seule : ni heure ni lieu de naissance, on ne collecte que ce qui sert */
 Q.releve = {
   nom: 'Le Relevé',
-  duree: 'Environ 15 minutes',
-  chapo: 'Répondez court et concret. Ce que vous ne savez pas, laissez-le vide plutôt que de l’approximer. Vos réponses s’enregistrent au fur et à mesure sur cet appareil : vous pouvez vous arrêter et reprendre plus tard.',
+  duree: 'Environ 10 minutes',
+  chapo: 'Répondez avec vos mots, sans chercher la bonne réponse. Les détails comptent plus que les explications. Vos réponses s’enregistrent au fur et à mesure sur cet appareil : vous pouvez vous arrêter et reprendre plus tard.',
   sections: [
     {titre:ETAT_CIVIL.titre, intro:ETAT_CIVIL.intro, questions:ETAT_CIVIL.questions.filter(function(q){return q.id!=='naissance_heure' && q.id!=='naissance_lieu';})},
-    {titre:'Votre projet', intro:'Celui pour lequel vous êtes ici.', questions:[
-      {id:'projet', type:'textarea', lignes:3, label:'Le projet que vous repoussez, en une phrase, tel que vous le diriez à quelqu’un de proche', requis:true},
-      {id:'options', type:'textarea', lignes:4, label:'Quelles possibilités avez-vous déjà envisagées pour ce projet ? Une ligne par possibilité, même celles que vous avez écartées'},
-      {id:'projet_depuis', type:'text', label:'Depuis quand y pensez-vous ? L’année, et si possible le mois', requis:true},
-      {id:'moteur', type:'textarea', lignes:4, label:'Imaginez que ce projet ait abouti depuis un an. Qu’est-ce qui a changé, concrètement, dans vos journées ?', aide:'Des faits que l’on pourrait voir de l’extérieur : ce que vous faites, où, avec qui, à quelle heure.', requis:true},
-      {id:'tentative', type:'textarea', lignes:6, label:'Racontez la dernière fois où vous avez failli vous y mettre. Que s’est-il passé, du début à la fin ?', aide:'Racontez comme vous le feriez à voix haute. Les détails comptent plus que l’explication.', requis:true},
-      {id:'deja_fait', type:'textarea', lignes:4, label:'Qu’avez-vous déjà fait pour ce projet, même de petit ? Une ligne par chose, avec une date approximative'},
-      {id:'pari', type:'textarea', lignes:3, label:'Si vous deviez parier sur la manière dont vous allez encore le repousser, vous parieriez sur quoi ?', requis:true}
+    {titre:'Le projet', intro:'Celui que vous repoussez depuis trop longtemps.', questions:[
+      {id:'projet', type:'text', label:'En une phrase, quel est le projet que vous repoussez ?', aide:'Tel que vous le diriez à quelqu’un de proche.', requis:true},
+      {id:'projet_depuis', type:'choix', label:'Depuis combien de temps y pensez-vous ?', options:['Moins d’un an','Un à trois ans','Trois à cinq ans','Plus de cinq ans'], requis:true},
+      {id:'moteur', type:'textarea', lignes:4, label:'Si ce projet était terminé dans un an, qu’est-ce qui aurait concrètement changé pour vous ?', aide:'Des faits que l’on pourrait voir de l’extérieur.', requis:true},
+      {id:'qui_sait', type:'choix', label:'Qui, autour de vous, sait que vous portez ce projet ?', options:['Personne','Une ou deux personnes','Beaucoup de monde'], requis:true}
     ]},
-    {titre:'Votre rythme', intro:'Tel qu’il est, pas tel qu’il devrait être.', questions:[
-      {id:'hier', type:'textarea', lignes:6, label:'Décrivez votre dernier jour de semaine ordinaire, du matin au soir, avec les heures si vous le pouvez', requis:true},
-      {id:'heures', type:'text', label:'Sur les quatre prochaines semaines, combien d’heures par semaine pourrez-vous réellement consacrer à ce projet ?', aide:'Le chiffre honnête, pas le chiffre souhaité.', requis:true},
-      {id:'cout_12mois', type:'textarea', lignes:3, label:'Ces douze derniers mois, qu’avez-vous commencé côté travail, argent ou organisation, et que vous n’avez pas terminé ? Avec le mois'}
+    {titre:'Là où ça s’arrête', intro:'Racontez simplement ce qui s’est passé.', questions:[
+      {id:'commencements', type:'choix', label:'Combien de fois avez-vous vraiment commencé ?', options:['Jamais','Une fois','Plusieurs fois'], requis:true},
+      {id:'tentative', type:'textarea', lignes:6, label:'Racontez votre dernière tentative : ce que vous avez fait, puis le moment précis où vous vous êtes arrêté', aide:'Comme vous le raconteriez à voix haute.', requis:true},
+      {id:'phrase_arret', type:'textarea', lignes:3, label:'Au moment d’arrêter, que vous êtes-vous dit ?', aide:'La phrase, telle qu’elle vous est venue.', requis:true},
+      {id:'phrase_choisie', type:'choix', label:'Quelle phrase vous ressemble le plus ?', options:['« Je n’arrive pas à m’y mettre »','« Je commence, puis je lâche »','« J’avance, mais je ne finis jamais »','« C’est presque prêt, mais je ne le montre pas »'], requis:true}
     ]},
-    {titre:'Votre histoire', intro:'Quelques repères, sans avoir à vous justifier.', questions:[
-      {id:'annees', type:'text', label:'Trois années de votre vie qui ont compté. Ne dites pas pourquoi', requis:true},
-      {id:'gestes', type:'textarea', lignes:5, label:'Quand vous avez un choix important à faire, que faites-vous concrètement avant de trancher ?', aide:'Décrivez les gestes, pas l’état d’esprit : à qui vous parlez, ce que vous lisez, où vous êtes, combien de temps cela prend.', requis:true},
-      {id:'decision_fiere', type:'textarea', lignes:5, label:'Racontez une décision que vous avez prise et que vous referiez aujourd’hui. Comment l’avez-vous prise ?'},
-      {id:'decision_regret', type:'textarea', lignes:4, label:'Racontez une décision que vous avez regrettée. À quel moment l’avez-vous su, et par quel fait ?'},
-      {id:'entourage', type:'textarea', lignes:3, label:'Qu’est-ce que votre entourage vous répète à votre sujet ? Citez la phrase telle qu’on vous la dit'},
-      {id:'arrete', type:'textarea', lignes:3, label:'Un projet que vous avez arrêté alors qu’il fonctionnait. Lequel, et en quelle année ?'}
+    {titre:'Votre façon d’avancer', intro:'Ce qui a déjà marché compte autant que ce qui a calé.', questions:[
+      {id:'reussite', type:'textarea', lignes:5, label:'Pensez à une chose que vous avez menée au bout, même petite. Comment vous y êtes-vous pris ?', requis:true},
+      {id:'mode', type:'choix', label:'Vous avancez le mieux :', options:['Seul, à votre rythme','Quand quelqu’un attend un résultat','Avec une date imposée','Quand l’envie vient'], requis:true},
+      {id:'heures', type:'text', label:'Combien d’heures par semaine pouvez-vous réellement donner à ce projet ?', aide:'Le chiffre honnête, pas le chiffre souhaité.', requis:true}
     ]},
-    {titre:'Le cadre', intro:'Pour que votre premier pas tienne dans votre vie réelle.', questions:[
-      {id:'contraintes', type:'textarea', lignes:3, label:'Quelles contraintes fermes tombent dans les quatre prochaines semaines ? Avec leurs dates', aide:'Une échéance, un déplacement, un concours, un événement familial, une saison chargée.'},
-      {id:'ne_bouge_pas', type:'textarea', lignes:3, label:'Qu’est-ce qui ne doit pas bouger, quoi que vous décidiez ?', aide:'Un engagement, un revenu, un lieu, un horaire.'},
-      {id:'non_demande', type:'textarea', lignes:4, label:'Il reste quelque chose que ces questions n’ont pas demandé. Écrivez-le ici'}
+    {titre:'Pour finir', intro:'Deux dernières questions.', questions:[
+      {id:'c_est_juste', type:'textarea', lignes:3, label:'En lisant votre carte, qu’est-ce qui vous ferait dire « là, c’est juste » ?', requis:true},
+      {id:'non_demande', type:'textarea', lignes:4, label:'Y a-t-il autre chose que je devrais savoir ?'}
     ]}
   ]
 };
