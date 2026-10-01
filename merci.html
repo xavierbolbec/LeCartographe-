@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Merci · Le Cartographe</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--nuit:#0E1B2E;--nuit-2:#0A1524;--nuit-3:#152740;--or:#C9A227;--creme:#F2E6CE;--texte:#E8E2D4;--texte-doux:#A9B8CA;--ligne:rgba(242,230,206,.16);
+  --serif:'Lora',Georgia,serif;--sans:'Poppins',-apple-system,BlinkMacSystemFont,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--nuit);color:var(--texte);font-family:var(--sans);font-weight:300;line-height:1.65;min-height:100vh;
+  background-image:radial-gradient(ellipse 120% 90% at 50% 30%,var(--nuit-3),var(--nuit) 52%,var(--nuit-2) 100%);background-attachment:fixed}
+.enveloppe{max-width:600px;margin:0 auto;padding:26px 16px calc(56px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:40px}
+.marque{font-family:var(--serif);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--creme);text-decoration:none}
+.coord{font-size:11px;letter-spacing:.13em;color:var(--or);white-space:nowrap}
+.sur{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--or);margin-bottom:12px}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(28px,7.5vw,38px);line-height:1.18;color:var(--creme);margin-bottom:16px}
+p{font-size:15.5px;margin-bottom:14px}
+.intro{color:var(--texte-doux);font-family:var(--serif);font-style:italic;font-size:17px}
+.etapes{list-style:none;margin:28px 0;counter-reset:e}
+.etapes li{counter-increment:e;position:relative;padding:0 0 22px 46px;border-left:1px solid var(--ligne);margin-left:14px}
+.etapes li:last-child{border-left-color:transparent}
+.etapes li::before{content:counter(e);position:absolute;left:-15px;top:-2px;width:30px;height:30px;border-radius:50%;border:1px solid var(--or);background:var(--nuit);color:var(--or);font-family:var(--serif);font-size:15px;display:flex;align-items:center;justify-content:center}
+.etapes b{display:block;font-family:var(--serif);font-weight:500;font-size:17px;color:var(--creme);margin-bottom:4px}
+.etapes span{font-size:15px;color:var(--texte)}
+.encadre{border-left:2px solid var(--or);padding:14px 0 14px 18px;background:rgba(201,162,39,.06);border-radius:0 10px 10px 0;margin:8px 0 22px}
+.encadre p{margin:0;font-size:14.5px}
+a{color:var(--or)}
+.signe{font-family:var(--serif);font-size:17px;color:var(--creme);margin-top:26px}
+.signe small{display:block;font-family:var(--sans);font-size:12px;color:var(--texte-doux)}
+footer{margin-top:48px;padding-top:24px;border-top:1px solid rgba(242,230,206,.12);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.devise{font-size:12px;letter-spacing:.15em;color:var(--texte-doux)}
+footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left:14px}
+</style>
+</head>
+<body>
+<div class="enveloppe">
+<header>
+  <a class="marque" href="/">Le Cartographe</a>
+  <div class="coord">16°15&rsquo;N &mdash; 61°35&rsquo;W</div>
+</header>
+
+<p class="sur" id="sur">Paiement reçu</p>
+<h1 id="titre">Merci. Votre commande est enregistrée.</h1>
+<p class="intro" id="intro">Voici ce qui se passe maintenant.</p>
+
+<ol class="etapes" id="etapes"></ol>
+
+<div class="encadre"><p>Vous recevez aussi un reçu et votre facture de la part de Stripe, notre prestataire de paiement. Pensez à vérifier vos courriers indésirables si mon message n&rsquo;arrive pas.</p></div>
+
+<p>Une question d&rsquo;ici là&nbsp;? Écrivez-moi à <a href="mailto:xavier.bolbec@gmail.com">xavier.bolbec@gmail.com</a>, je réponds à chaque message.</p>
+
+<p class="signe">Xavier<small>Le Cartographe, Guadeloupe</small></p>
+
+<footer>
+  <div class="devise">Respire · Écoute · Agis</div>
+  <div><a href="/mentions-legales">Mentions légales</a><a href="/cgv">CGV</a><a href="/confidentialite">Confidentialité</a></div>
+</footer>
+</div>
+<script>
+(function(){
+  var O={
+    releve:{nom:'Le Relevé',etapes:[
+      ['Votre questionnaire arrive par e-mail','Sous 24 heures, à l’adresse indiquée lors du paiement. Il porte sur votre projet, tel que vous le vivez.'],
+      ['Vous y répondez à votre rythme','Prenez le temps qu’il faut : votre lecture repose sur ce que vous y écrivez.'],
+      ['Vous recevez votre Relevé sous 7 jours','En PDF, à votre nom, 7 jours au plus après réception de votre questionnaire complété.']]},
+    cartographie:{nom:'La Cartographie',etapes:[
+      ['Je vous écris sous 24 heures','Pour fixer la date de votre appel stratégique et vous envoyer votre questionnaire approfondi.'],
+      ['Vous répondez au questionnaire','À votre rythme, avant notre séance de restitution.'],
+      ['Votre séance de restitution, puis votre carte','Séance sous 14 jours après réception du questionnaire, carte remise sous 48 heures après la séance.']]},
+    cap:{nom:'Le Cap',etapes:[
+      ['Je vous écris sous 24 heures','Pour fixer notre premier rendez-vous et vous envoyer votre questionnaire approfondi.'],
+      ['Nous démarrons sous 14 jours','Votre accompagnement de 90 jours commence par le contenu de La Cartographie.'],
+      ['Un point toutes les deux semaines','Avec un accès écrit entre les points, et un bilan écrit à la fin des 90 jours.']]}
+  };
+  var k=(new URLSearchParams(location.search).get('offre')||'').toLowerCase();
+  var o=O[k];
+  if(!o){document.getElementById('intro').textContent='Je vous écris sous 24 heures pour la suite.';return;}
+  document.getElementById('sur').textContent=o.nom+' · paiement reçu';
+  document.getElementById('titre').textContent='Merci. '+o.nom+' commence maintenant.';
+  document.getElementById('etapes').innerHTML=o.etapes.map(function(e){return '<li><b>'+e[0]+'</b><span>'+e[1]+'</span></li>';}).join('');
+})();
+</script>
+</body>
+</html>
