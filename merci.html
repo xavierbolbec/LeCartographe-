@@ -50,6 +50,8 @@ footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left
 .pan .carte{background:#182B46;border:1px solid rgba(201,162,39,.2);border-radius:6px;margin:22px 0 0;text-align:center}
 .pan .carte ul{display:inline-block;text-align:left}
 .prix{font-size:34px !important;color:var(--creme) !important}
+.btn{display:block;text-align:center;background:var(--or);color:var(--nuit);border:1px solid var(--or);border-radius:8px;font-weight:500;font-size:15px;letter-spacing:.06em;text-transform:uppercase;padding:16px 14px;text-decoration:none;margin:4px 0 8px}
+.btn-note{font-size:13px;color:var(--texte-doux);text-align:center;margin:0 0 22px}
 button,.bouton{letter-spacing:.06em;text-transform:uppercase;font-size:15px}
 </style>
 </head>
@@ -70,6 +72,7 @@ button,.bouton{letter-spacing:.06em;text-transform:uppercase;font-size:15px}
 <div class="pan">
 <div class="sep"><i></i><svg viewBox="0 0 12 12"><path d="M6 0l1.4 4.6L12 6l-4.6 1.4L6 12l-1.4-4.6L0 6l4.6-1.4z" fill="#C9A227"/></svg><i></i></div>
 <ol class="etapes" id="etapes"></ol>
+<div id="cta" hidden><a class="btn" id="btn-q" href="/questionnaire">Commencer mon questionnaire</a><p class="btn-note" id="btn-note"></p></div>
 
 <div class="encadre"><p>Vous recevez aussi un reçu et votre facture de la part de Stripe, notre prestataire de paiement. Pensez à vérifier vos courriers indésirables si mon message n&rsquo;arrive pas.</p></div>
 
@@ -87,17 +90,17 @@ button,.bouton{letter-spacing:.06em;text-transform:uppercase;font-size:15px}
 <script>
 (function(){
   var O={
-    releve:{nom:'Le Relevé',etapes:[
-      ['Votre questionnaire arrive par e-mail','Sous 24 heures, à l’adresse indiquée lors du paiement. Il porte sur votre projet, tel que vous le vivez.'],
-      ['Vous y répondez à votre rythme','Prenez le temps qu’il faut : votre lecture repose sur ce que vous y écrivez.'],
+    releve:{nom:'Le Relevé',duree:'Environ 15 minutes',etapes:[
+      ['Remplissez votre questionnaire','Dès maintenant avec le bouton ci-dessous, ou plus tard grâce au lien que je vous envoie par e-mail sous 24 heures. Votre lecture repose sur ce que vous y écrivez.'],
+      ['Vous recevez un accusé de réception','Dès l’envoi de vos réponses, à l’adresse que vous avez indiquée.'],
       ['Vous recevez votre Relevé sous 7 jours','En PDF, à votre nom, 7 jours au plus après réception de votre questionnaire complété.']]},
-    cartographie:{nom:'La Cartographie',etapes:[
-      ['Je vous écris sous 24 heures','Pour fixer la date de votre appel stratégique et vous envoyer votre questionnaire approfondi.'],
-      ['Vous répondez au questionnaire','À votre rythme, avant notre séance de restitution.'],
-      ['Votre séance de restitution, puis votre carte','Séance sous 14 jours après réception du questionnaire, carte remise sous 48 heures après la séance.']]},
-    cap:{nom:'Le Cap',etapes:[
-      ['Je vous écris sous 24 heures','Pour fixer notre premier rendez-vous et vous envoyer votre questionnaire approfondi.'],
-      ['Nous démarrons sous 14 jours','Votre accompagnement de 90 jours commence par le contenu de La Cartographie.'],
+    cartographie:{nom:'La Cartographie',duree:'Environ 40 minutes, en une ou plusieurs fois',etapes:[
+      ['Remplissez votre questionnaire approfondi','Dès maintenant avec le bouton ci-dessous, ou plus tard grâce au lien que je vous envoie par e-mail sous 24 heures. En une ou plusieurs fois.'],
+      ['Je vous écris sous 24 heures','Pour fixer la date de votre séance de restitution, qui a lieu sous 14 jours après réception de votre questionnaire.'],
+      ['Votre séance de restitution, puis votre carte','Votre carte vous est remise sous 48 heures après la séance.']]},
+    cap:{nom:'Le Cap',duree:'Environ 50 minutes, en une ou plusieurs fois',etapes:[
+      ['Remplissez votre questionnaire approfondi','Dès maintenant avec le bouton ci-dessous, ou plus tard grâce au lien que je vous envoie par e-mail sous 24 heures. En une ou plusieurs fois.'],
+      ['Je vous écris sous 24 heures','Pour fixer notre premier rendez-vous. Votre accompagnement de 90 jours démarre sous 14 jours, par le contenu de La Cartographie.'],
       ['Un point toutes les deux semaines','Avec un accès écrit entre les points, et un bilan écrit à la fin des 90 jours.']]}
   };
   var k=(new URLSearchParams(location.search).get('offre')||'').toLowerCase();
@@ -105,6 +108,9 @@ button,.bouton{letter-spacing:.06em;text-transform:uppercase;font-size:15px}
   if(!o){document.getElementById('intro').textContent='Je vous écris sous 24 heures pour la suite.';document.getElementById('etapes').parentNode.style.display='none';return;}
   document.getElementById('sur').textContent=o.nom+' · paiement reçu';
   document.getElementById('titre').textContent='Merci. '+o.nom+' commence maintenant.';
+  document.getElementById('btn-q').href='/questionnaire?offre='+k;
+  document.getElementById('btn-note').textContent=o.duree+'. Vos réponses s’enregistrent au fur et à mesure.';
+  document.getElementById('cta').hidden=false;
   document.getElementById('etapes').innerHTML=o.etapes.map(function(e){return '<li><b>'+e[0]+'</b><span>'+e[1]+'</span></li>';}).join('');
 })();
 </script>
