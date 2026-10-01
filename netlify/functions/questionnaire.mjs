@@ -1,10 +1,11 @@
 // Réception d'un questionnaire du Cartographe : envoi des réponses à Xavier, accusé de réception au client.
-const OFFRES = { releve: 'Le Relevé', cartographie: 'La Cartographie', cap: 'Le Cap' };
+const OFFRES = { releve: 'Le Relevé', cartographie: 'La Cartographie', cap: 'Le Cap', 'cap-suite': 'Le Cap' };
 const XAVIER = 'xavier.bolbec@gmail.com';
 const SUITE = {
   releve: 'Votre Relevé vous parvient sous 7 jours, en PDF, à votre nom.',
   cartographie: 'Je reviens vers vous pour fixer notre séance de restitution, qui aura lieu sous 14 jours.',
-  cap: 'Je reviens vers vous pour fixer la suite de votre accompagnement.'
+  cap: 'Je reviens vers vous pour fixer la suite de votre accompagnement.',
+  'cap-suite': 'Je reviens vers vous pour fixer la suite de votre accompagnement.'
 };
 
 const esc = (t) => String(t ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));

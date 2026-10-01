@@ -151,6 +151,7 @@ a{color:var(--or)}
   }
 
   var S=F.sections, N=S.length, html='';
+  var avecEC=S.some(function(s){return s.questions.some(function(q){return q.id==='etat_civil';});});
   html+='<section class="ecran" id="e-intro"><div class="pan centre">'+SEP+'<p class="sur">Questionnaire · '+esc(F.nom)+'</p><h1>Votre questionnaire</h1><p class="it">'+esc(F.chapo)+'</p><p class="duree">'+esc(F.duree)+' · '+N+' parties</p>'+
         '<div class="nav"><button class="btn" data-va="0" id="b-start">'+(Object.keys(R).length?'Reprendre où j’en étais':'Commencer')+'</button></div></div></section>';
   S.forEach(function(s,i){
@@ -162,7 +163,7 @@ a{color:var(--or)}
   });
   html+='<section class="ecran" id="e-fin"><div class="pan">'+'<div class="centre">'+SEP+'<p class="sur">Dernière étape</p><h2>Relisez avant l’envoi</h2><p class="it">Voici vos réponses telles qu’elles me parviendront. Un détail à corriger ? Touchez « Modifier » à côté de la partie concernée.</p></div>'+
         '<div class="recap" id="recap"></div><div style="border-top:1px solid var(--ligne);margin-top:12px"></div>'+
-        '<div class="champ" data-id="c_exact"><label class="coche"><input type="checkbox" id="c_exact"> Les informations d’état civil sont exactes et recopiées de mon acte de naissance.</label><p class="err">Merci de vérifier puis de cocher cette case.</p></div>'+
+        (avecEC?'<div class="champ" data-id="c_exact"><label class="coche"><input type="checkbox" id="c_exact"> Les informations d’état civil sont exactes et recopiées de mon acte de naissance.</label><p class="err">Merci de vérifier puis de cocher cette case.</p></div>':'')+
         '<div class="champ" data-id="c_majeur"><label class="coche"><input type="checkbox" id="c_majeur"> Je certifie être majeur.</label><p class="err">Le Cartographe est réservé aux personnes majeures.</p></div>'+
         '<p class="aide" style="margin-top:18px">Vos réponses servent uniquement à établir votre lecture. Elles ne sont ni publiées ni transmises. <a href="/confidentialite">Confidentialité</a></p>'+
         '<input class="pot" type="text" id="site" tabindex="-1" autocomplete="off" aria-hidden="true">'+
@@ -172,7 +173,8 @@ a{color:var(--or)}
 
   var DELAI={releve:'Votre Relevé vous parvient sous 7 jours, en PDF, à votre nom. Un accusé de réception part à l’instant sur votre adresse.',
     cartographie:'Je reviens vers vous pour fixer notre séance de restitution, sous 14 jours. Un accusé de réception part à l’instant sur votre adresse.',
-    cap:'Je reviens vers vous pour fixer la suite de votre accompagnement. Un accusé de réception part à l’instant sur votre adresse.'};
+    cap:'Je reviens vers vous pour fixer la suite de votre accompagnement. Un accusé de réception part à l’instant sur votre adresse.',
+    'cap-suite':'Je reviens vers vous pour fixer la suite de votre accompagnement. Un accusé de réception part à l’instant sur votre adresse.'};
   document.getElementById('merci-txt').textContent=DELAI[cle];
 
   function aller(id){
@@ -228,7 +230,7 @@ a{color:var(--or)}
 
   function envoyer(b){
     var ok=true;
-    ['c_exact','c_majeur'].forEach(function(id){var c=document.getElementById(id).checked;marquer(id,c?'':(id==='c_exact'?'Merci de vérifier puis de cocher cette case.':'Le Cartographe est réservé aux personnes majeures.'));if(!c)ok=false;});
+    (avecEC?['c_exact','c_majeur']:['c_majeur']).forEach(function(id){var c=document.getElementById(id).checked;marquer(id,c?'':(id==='c_exact'?'Merci de vérifier puis de cocher cette case.':'Le Cartographe est réservé aux personnes majeures.'));if(!c)ok=false;});
     if(!ok) return;
     for(var i=0;i<N;i++){ if(!S[i].questions.every(function(q){return !visible(q)||!q.requis||R[q.id];})){aller(i);valider(i);return;} }
     var sections=S.map(function(s){return {titre:s.titre, scelle:!!s.scelle, reponses:s.questions.filter(visible).map(function(q){return {id:q.id,question:q.label,reponse:affiche(q)};})};});

@@ -91,18 +91,21 @@ button,.bouton{letter-spacing:.06em;text-transform:uppercase;font-size:15px}
 (function(){
   var O={
     releve:{nom:'Le Relevé',duree:'Environ 15 minutes',etapes:[
-      ['Remplissez votre questionnaire','Dès maintenant avec le bouton ci-dessous, ou plus tard grâce au lien que je vous envoie par e-mail sous 24 heures. Votre lecture repose sur ce que vous y écrivez.'],
+      ['Remplissez votre questionnaire','Dès maintenant avec le bouton ci-dessous, ou plus tard grâce au lien que vous recevez aussi par e-mail. Votre lecture repose sur ce que vous y écrivez.'],
       ['Vous recevez un accusé de réception','Dès l’envoi de vos réponses, à l’adresse que vous avez indiquée.'],
       ['Vous recevez votre Relevé sous 7 jours','En PDF, à votre nom, 7 jours au plus après réception de votre questionnaire complété.']]},
     cartographie:{nom:'La Cartographie',duree:'Environ 40 minutes, en une ou plusieurs fois',etapes:[
-      ['Remplissez votre questionnaire approfondi','Dès maintenant avec le bouton ci-dessous, ou plus tard grâce au lien que je vous envoie par e-mail sous 24 heures. En une ou plusieurs fois.'],
+      ['Remplissez votre questionnaire approfondi','Dès maintenant avec le bouton ci-dessous, ou plus tard grâce au lien que vous recevez aussi par e-mail. En une ou plusieurs fois.'],
       ['Je vous écris sous 24 heures','Pour fixer la date de votre séance de restitution, qui a lieu sous 14 jours après réception de votre questionnaire.'],
       ['Votre séance de restitution, puis votre carte','Votre carte vous est remise sous 48 heures après la séance.']]},
     cap:{nom:'Le Cap',duree:'Environ 50 minutes, en une ou plusieurs fois',etapes:[
-      ['Remplissez votre questionnaire approfondi','Dès maintenant avec le bouton ci-dessous, ou plus tard grâce au lien que je vous envoie par e-mail sous 24 heures. En une ou plusieurs fois.'],
+      ['Remplissez votre questionnaire approfondi','Dès maintenant avec le bouton ci-dessous, ou plus tard grâce au lien que vous recevez aussi par e-mail. En une ou plusieurs fois.'],
       ['Je vous écris sous 24 heures','Pour fixer notre premier rendez-vous. Votre accompagnement de 90 jours démarre sous 14 jours, par le contenu de La Cartographie.'],
       ['Un point toutes les deux semaines','Avec un accès écrit entre les points, et un bilan écrit à la fin des 90 jours.']]}
   };
+  O['cap-suite']={nom:'Le Cap',duree:'Environ 10 minutes, la seule partie qui vous reste',etapes:[
+      ['Remplissez votre point de départ','Vous avez déjà répondu au questionnaire de La Cartographie : il ne reste que cette dernière partie, mise sous scellé. Le lien vous arrive aussi par e-mail.'],
+      O.cap.etapes[1],O.cap.etapes[2]]};
   var k=(new URLSearchParams(location.search).get('offre')||'').toLowerCase();
   var o=O[k];
   if(!o){document.getElementById('intro').textContent='Je vous écris sous 24 heures pour la suite.';document.getElementById('etapes').parentNode.style.display='none';return;}

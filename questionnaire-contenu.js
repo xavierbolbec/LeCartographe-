@@ -150,3 +150,16 @@ Q.cap = {
     FIN
   ])
 };
+
+/* ================= LE CAP après LA CARTOGRAPHIE : seulement la fiche de départ ================= */
+Q['cap-suite'] = {
+  nom: 'Le Cap',
+  duree: 'Environ 10 minutes',
+  chapo: 'Vous avez déjà répondu au questionnaire de La Cartographie. Il ne reste que votre point de départ. Vos réponses s’enregistrent au fur et à mesure sur cet appareil : vous pouvez vous arrêter et reprendre plus tard.',
+  sections: [
+    {titre:'Pour vous retrouver', intro:'Les mêmes que lors de votre Cartographie.', questions:ETAT_CIVIL.questions.filter(function(q){return q.id==='prenom_usage'||q.id==='email';})},
+    (function(){var d=Q.cap.sections.filter(function(x){return x.scelle;})[0];
+      return {titre:d.titre, intro:d.intro, scelle:true, questions:d.questions.map(function(q){if(!q.si)return q;var c={};for(var k in q)if(k!=='si')c[k]=q[k];return c;})};})(),
+    FIN
+  ]
+};
