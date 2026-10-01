@@ -19,12 +19,13 @@ var ETAT_CIVIL = {
 var Q = {};
 
 /* ================= LE RELEVÉ ================= */
+/* lecture numérologique seule : ni heure ni lieu de naissance, on ne collecte que ce qui sert */
 Q.releve = {
   nom: 'Le Relevé',
   duree: 'Environ 15 minutes',
   chapo: 'Répondez court et concret. Ce que vous ne savez pas, laissez-le vide plutôt que de l’approximer. Vos réponses s’enregistrent au fur et à mesure sur cet appareil : vous pouvez vous arrêter et reprendre plus tard.',
   sections: [
-    {titre:ETAT_CIVIL.titre, intro:ETAT_CIVIL.intro, questions:ETAT_CIVIL.questions.filter(function(q){return q.id!=='naissance_heure';})},
+    {titre:ETAT_CIVIL.titre, intro:ETAT_CIVIL.intro, questions:ETAT_CIVIL.questions.filter(function(q){return q.id!=='naissance_heure' && q.id!=='naissance_lieu';})},
     {titre:'Votre projet', intro:'Celui pour lequel vous êtes ici.', questions:[
       {id:'projet', type:'textarea', lignes:3, label:'Le projet que vous repoussez, en une phrase, tel que vous le diriez à quelqu’un de proche', requis:true},
       {id:'options', type:'textarea', lignes:4, label:'Quelles possibilités avez-vous déjà envisagées pour ce projet ? Une ligne par possibilité, même celles que vous avez écartées'},
