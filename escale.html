@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L'Escale · Le Cartographe</title>
+<meta name="description" content="Trente minutes offertes pour faire le point sur le projet que vous repoussez.">
+<meta name="robots" content="noindex, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nuit:#0E1B2E; --nuit-2:#0A1524; --nuit-3:#152740;
+  --or:#C9A227; --bleu:#4EC3E8; --creme:#F2E6CE; --texte:#E8E2D4; --texte-doux:#A9B8CA;
+  --ligne:rgba(242,230,206,.16);
+  --serif:'Lora',Georgia,serif; --sans:'Poppins',-apple-system,BlinkMacSystemFont,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--nuit);color:var(--texte);font-family:var(--sans);font-weight:300;line-height:1.65;min-height:100vh;
+  background-image:radial-gradient(ellipse 120% 90% at 50% 30%,var(--nuit-3),var(--nuit) 52%,var(--nuit-2) 100%);background-attachment:fixed}
+.enveloppe{max-width:600px;margin:0 auto;padding:26px 16px calc(56px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:38px}
+.marque{font-family:var(--serif);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--creme);text-decoration:none}
+.coord{font-size:11px;letter-spacing:.13em;color:var(--or);white-space:nowrap}
+.sur{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--or);margin-bottom:12px}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(28px,7.5vw,38px);line-height:1.18;color:var(--creme);margin-bottom:16px}
+h2{font-family:var(--serif);font-weight:500;font-size:clamp(22px,5.5vw,27px);line-height:1.25;color:var(--creme);margin-bottom:14px}
+p{font-size:15.5px;margin-bottom:14px}
+.intro{color:var(--texte-doux);margin-bottom:32px}
+.filet{width:64px;height:2px;background:var(--or);margin:30px 0;border-radius:2px}
+.champ{margin-bottom:28px}
+label.q{display:block;font-family:var(--serif);font-size:18px;color:var(--creme);margin-bottom:6px;line-height:1.35}
+.aide{font-size:13px;color:var(--texte-doux);margin-bottom:10px}
+input[type=text],input[type=email],textarea{width:100%;background:rgba(10,21,36,.6);border:1px solid var(--ligne);border-radius:10px;
+  color:var(--creme);font:inherit;font-size:16px;padding:13px 14px;outline:none;transition:border-color .2s}
+textarea{min-height:96px;resize:vertical}
+input:focus,textarea:focus{border-color:var(--or)}
+.duo{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:520px){.duo{grid-template-columns:1fr 1fr}}
+.choix{display:grid;gap:10px}
+.choix label{display:flex;align-items:center;gap:12px;border:1px solid var(--ligne);border-radius:10px;padding:13px 14px;cursor:pointer;font-size:15px;transition:border-color .2s,background .2s}
+.choix input{accent-color:var(--or);width:18px;height:18px;flex:none}
+.choix label:has(input:checked){border-color:var(--or);background:rgba(201,162,39,.08);color:var(--creme)}
+.coche{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;margin-bottom:14px;cursor:pointer}
+.coche input{accent-color:var(--or);width:18px;height:18px;flex:none;margin-top:3px}
+.err{color:#E8A04E;font-size:13.5px;margin-top:8px;display:none}
+.champ.invalide .err{display:block}
+.champ.invalide input[type=text],.champ.invalide input[type=email],.champ.invalide textarea{border-color:#E8A04E}
+button,.bouton{display:block;width:100%;text-align:center;background:var(--or);color:var(--nuit);border:0;border-radius:12px;
+  font:inherit;font-weight:500;font-size:16px;padding:16px 18px;cursor:pointer;text-decoration:none;margin-top:8px}
+button:hover,.bouton:hover{filter:brightness(1.07)}
+.mention{font-size:12.5px;color:var(--texte-doux);text-align:center;margin-top:12px}
+.mention a{color:var(--texte-doux)}
+.carte{border:1px solid var(--ligne);border-radius:14px;padding:22px 20px;margin:22px 0;background:rgba(10,21,36,.45)}
+.prix{font-family:var(--serif);color:var(--or);font-size:22px;margin-bottom:10px}
+.carte ul{margin:0 0 16px 20px}
+.carte li{font-size:15px;margin-bottom:6px}
+#suite{display:none}
+footer{margin-top:48px;padding-top:24px;border-top:1px solid rgba(242,230,206,.12);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.devise{font-size:12px;letter-spacing:.15em;color:var(--texte-doux)}
+footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left:14px}
+</style>
+</head>
+<body>
+<div class="enveloppe">
+
+<header>
+  <a class="marque" href="/">Le Cartographe</a>
+  <div class="coord">16°15&rsquo;N &mdash; 61°35&rsquo;W</div>
+</header>
+
+<section id="formulaire">
+  <p class="sur">L&rsquo;Escale · 30 minutes offertes</p>
+  <h1>Avant de réserver votre appel</h1>
+  <p class="intro">Quatre questions, deux minutes. Elles me permettent de préparer notre échange à partir de votre situation, et de vérifier que cet appel est le bon point de départ pour vous.</p>
+
+  <form id="f" novalidate>
+    <div class="duo champ" id="c-identite">
+      <div>
+        <label class="q" for="nom">Votre nom</label>
+        <input type="text" id="nom" autocomplete="name" required>
+      </div>
+      <div>
+        <label class="q" for="email">Votre adresse électronique</label>
+        <input type="email" id="email" autocomplete="email" required>
+      </div>
+      <p class="err">Indiquez votre nom et une adresse valide.</p>
+    </div>
+
+    <div class="champ" id="c-projet">
+      <label class="q" for="projet">Quel est le projet que vous repoussez ?</label>
+      <p class="aide">En une ou deux phrases, avec vos mots.</p>
+      <textarea id="projet" required></textarea>
+      <p class="err">Décrivez votre projet en quelques mots.</p>
+    </div>
+
+    <div class="champ" id="c-duree">
+      <label class="q">Depuis combien de temps le repoussez-vous ?</label>
+      <div class="choix">
+        <label><input type="radio" name="duree" value="Moins d'un an"> Moins d&rsquo;un an</label>
+        <label><input type="radio" name="duree" value="Entre un et trois ans"> Entre un et trois ans</label>
+        <label><input type="radio" name="duree" value="Plus de trois ans"> Plus de trois ans</label>
+      </div>
+      <p class="err">Choisissez une réponse.</p>
+    </div>
+
+    <div class="champ" id="c-maintenant">
+      <label class="q" for="maintenant">Qu&rsquo;est-ce qui vous décide à en parler maintenant ?</label>
+      <textarea id="maintenant" required></textarea>
+      <p class="err">Une phrase suffit.</p>
+    </div>
+
+    <div class="champ" id="c-invest">
+      <label class="q">Si l&rsquo;appel montre qu&rsquo;un accompagnement peut vous aider, êtes-vous prêt à investir dans les prochaines semaines ?</label>
+      <div class="choix">
+        <label><input type="radio" name="invest" value="Oui"> Oui</label>
+        <label><input type="radio" name="invest" value="Oui, après en avoir parlé à un proche"> Oui, après en avoir parlé à un proche</label>
+        <label><input type="radio" name="invest" value="Pas pour le moment"> Pas pour le moment</label>
+      </div>
+      <p class="err">Choisissez une réponse.</p>
+    </div>
+
+    <div class="filet"></div>
+
+    <label class="coche"><input type="checkbox" id="enreg"> <span>J&rsquo;accepte que l&rsquo;appel soit enregistré pour préparer la suite. Facultatif : sans cette case, l&rsquo;appel a lieu de la même façon.</span></label>
+    <div class="champ" id="c-majeur" style="margin-bottom:10px">
+      <label class="coche" style="margin-bottom:0"><input type="checkbox" id="majeur"> <span>Je certifie être majeur.</span></label>
+      <p class="err">Le Cartographe est réservé aux personnes majeures.</p>
+    </div>
+
+    <button type="submit">Continuer</button>
+    <p class="mention">Vos réponses servent uniquement à préparer l&rsquo;appel. <a href="/confidentialite">Confidentialité</a></p>
+  </form>
+</section>
+
+<section id="suite">
+  <p class="sur">Votre point de départ</p>
+  <h2>Pour vous, tout commence par Le Relevé</h2>
+  <p>Merci pour vos réponses. Un accompagnement sur plusieurs semaines demande d&rsquo;être prêt à s&rsquo;y engager maintenant, et vous m&rsquo;avez dit que ce n&rsquo;est pas encore le cas. C&rsquo;est une information, pas un échec.</p>
+  <p>Le Relevé est fait pour ce moment-là : une lecture écrite pour vous seul, sans rendez-vous, à votre rythme.</p>
+
+  <div class="carte">
+    <h2 style="margin-bottom:6px">Le Relevé</h2>
+    <p class="prix">397 €</p>
+    <ul>
+      <li>pourquoi votre projet n&rsquo;avance pas ;</li>
+      <li>ce qui doit guider votre choix ;</li>
+      <li>ce que vous faites en premier, et quand.</li>
+    </ul>
+    <p style="font-size:14px;color:var(--texte-doux)">Une page de synthèse et le détail de votre lecture, en PDF à votre nom, sous 7 jours après votre questionnaire.</p>
+    <a class="bouton" href="https://buy.stripe.com/28EeVd0j47Sj1iIbkgb7y00">Je commande mon Relevé</a>
+    <p class="mention">Si vous passez ensuite à La Cartographie dans les 30 jours, les 397 € sont déduits. <a href="/cgv">Conditions générales de vente</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="devise">Respire · Écoute · Agis</div>
+  <div><a href="/mentions-legales">Mentions légales</a><a href="/cgv">CGV</a><a href="/confidentialite">Confidentialité</a></div>
+</footer>
+
+</div>
+<script>
+(function(){
+  var CALENDLY='https://calendly.com/xavier-bolbec/30min';
+  var f=document.getElementById('f');
+  function val(id){return document.getElementById(id).value.trim();}
+  function radio(n){var r=f.querySelector('input[name="'+n+'"]:checked');return r?r.value:'';}
+  function marque(id,ok){document.getElementById(id).classList.toggle('invalide',!ok);return ok;}
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var nom=val('nom'),email=val('email');
+    var ok=true;
+    ok=marque('c-identite',nom.length>1&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))&&ok;
+    ok=marque('c-projet',val('projet').length>2)&&ok;
+    ok=marque('c-duree',!!radio('duree'))&&ok;
+    ok=marque('c-maintenant',val('maintenant').length>1)&&ok;
+    ok=marque('c-invest',!!radio('invest'))&&ok;
+    ok=marque('c-majeur',document.getElementById('majeur').checked)&&ok;
+    if(!ok){var p=f.querySelector('.invalide');if(p)p.scrollIntoView({behavior:'smooth',block:'center'});return;}
+    if(radio('invest')==='Pas pour le moment'){
+      document.getElementById('formulaire').style.display='none';
+      document.getElementById('suite').style.display='block';
+      window.scrollTo({top:0,behavior:'smooth'});
+      return;
+    }
+    var resume='Projet : '+val('projet')
+      +'\nDepuis : '+radio('duree')
+      +'\nPourquoi maintenant : '+val('maintenant')
+      +'\nPrêt à investir : '+radio('invest')
+      +'\nEnregistrement : '+(document.getElementById('enreg').checked?'accepté':'refusé');
+    var q=new URLSearchParams({name:nom,email:email,a1:resume});
+    window.location.href=CALENDLY+'?'+q.toString();
+  });
+  f.addEventListener('input',function(e){var c=e.target.closest('.champ');if(c)c.classList.remove('invalide');});
+  f.addEventListener('change',function(e){var c=e.target.closest('.champ');if(c)c.classList.remove('invalide');});
+})();
+</script>
+</body>
+</html>
