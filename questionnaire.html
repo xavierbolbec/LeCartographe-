@@ -62,6 +62,15 @@ select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(
 .btn.contour{flex:0 0 auto;background:transparent;color:var(--or)}
 .btn[disabled]{opacity:.6;cursor:wait}
 .enreg{font-size:12px;color:var(--texte-doux);text-align:center;margin-top:12px;min-height:18px}
+.src{margin-top:10px}
+.recap{margin-top:26px;text-align:left}
+.recap .bloc{border-top:1px solid var(--ligne);padding:18px 0 6px}
+.recap .tete{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px}
+.recap h3{font-family:var(--serif);font-weight:500;font-size:17px;color:var(--creme)}
+.recap .modif{background:none;border:0;color:var(--or);font:inherit;font-size:12px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;padding:4px 0;white-space:nowrap}
+.recap dt{font-size:13px;color:var(--texte-doux);margin-top:10px;line-height:1.45}
+.recap dd{font-size:15px;color:var(--texte);white-space:pre-wrap;line-height:1.55}
+.recap dd.vide{color:rgba(169,184,202,.55);font-style:italic}
 .ecran{display:none}.ecran.actif{display:block}
 .pot{position:absolute;left:-9999px;opacity:0;height:0;width:0}
 footer{margin-top:40px;padding-top:22px;border-top:1px solid rgba(242,230,206,.12);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
@@ -92,6 +101,7 @@ a{color:var(--or)}
 <script>
 (function(){
   var SEP='<div class="sep"><i></i><svg viewBox="0 0 12 12"><path d="M6 0l1.4 4.6L12 6l-4.6 1.4L6 12l-1.4-4.6L0 6l4.6-1.4z" fill="#C9A227"/></svg><i></i></div>';
+  var SOURCES=['Acte de naissance intégral','Livret de famille ou autre document officiel','Souvenir familial','Approximative, à une heure près'];
   var MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
   var cle=(new URLSearchParams(location.search).get('offre')||'').toLowerCase();
   var F=Q[cle];
@@ -99,6 +109,7 @@ a{color:var(--or)}
   if(!F){main.innerHTML='<section class="ecran actif"><div class="pan centre">'+SEP+'<h1>Questionnaire introuvable</h1><p class="it">Utilisez le lien reçu après votre paiement, ou écrivez-moi à <a href="mailto:xavier.bolbec@gmail.com">xavier.bolbec@gmail.com</a>.</p></div></section>';return;}
   document.title='Questionnaire · '+F.nom+' · Le Cartographe';
 
+  var depuisRecap=false;
   var STOCK='cartographe-questionnaire-'+cle, R={};
   try{R=JSON.parse(localStorage.getItem(STOCK)||'{}')||{};}catch(e){R={};}
   function sauver(){try{localStorage.setItem(STOCK,JSON.stringify(R));document.getElementById('enreg').textContent='Réponses enregistrées sur cet appareil';}catch(e){}}
@@ -121,7 +132,10 @@ a{color:var(--or)}
     }
     else if(q.type==='heure'){
       var inc=(v==='inconnue');
+      var src=R[q.id+'_source']||'';
       h+='<div class="ligne-heure"><input id="f-'+q.id+'" type="time" value="'+(inc?'':esc(v))+'"'+(inc?' disabled':'')+'><label class="coche"><input type="checkbox" id="f-'+q.id+'-inc"'+(inc?' checked':'')+'> Je ne la connais pas</label></div>';
+      h+='<select class="src" id="f-'+q.id+'-src" aria-label="Source de l’heure"'+(inc?' hidden':'')+'><option value="">D’où tenez-vous cette heure ?</option>'+
+         SOURCES.map(function(o){return '<option'+(src===o?' selected':'')+'>'+esc(o)+'</option>';}).join('')+'</select>';
     }
     else if(q.type==='choix'){
       h+='<div class="choix">'+q.options.map(function(o){return '<label><input type="radio" name="f-'+q.id+'" value="'+esc(o)+'"'+(v===o?' checked':'')+'> '+esc(o)+'</label>';}).join('')+'</div>';
@@ -144,9 +158,10 @@ a{color:var(--or)}
           (s.scelle?'<div class="encart">Cette partie est conservée telle quelle et ne sera relue qu’au quatre-vingt-dixième jour, avec vous.</div>':'')+
           s.questions.map(champ).join('')+
           '<div class="nav">'+(i>0?'<button class="btn contour" data-va="'+(i-1)+'">Retour</button>':'<button class="btn contour" data-va="intro">Retour</button>')+
-          '<button class="btn" data-suite="'+i+'">'+(i<N-1?'Continuer':'Dernière étape')+'</button></div></div></section>';
+          '<button class="btn" data-suite="'+i+'">'+(i<N-1?'Continuer':'Relire mes réponses')+'</button></div></div></section>';
   });
-  html+='<section class="ecran" id="e-fin"><div class="pan">'+'<div class="centre">'+SEP+'<p class="sur">Dernière étape</p><h2>Avant l’envoi</h2><p class="it">Vous pourrez encore revenir en arrière pour relire vos réponses.</p></div>'+
+  html+='<section class="ecran" id="e-fin"><div class="pan">'+'<div class="centre">'+SEP+'<p class="sur">Dernière étape</p><h2>Relisez avant l’envoi</h2><p class="it">Voici vos réponses telles qu’elles me parviendront. Un détail à corriger ? Touchez « Modifier » à côté de la partie concernée.</p></div>'+
+        '<div class="recap" id="recap"></div><div style="border-top:1px solid var(--ligne);margin-top:12px"></div>'+
         '<div class="champ" data-id="c_exact"><label class="coche"><input type="checkbox" id="c_exact"> Les informations d’état civil sont exactes et recopiées de mon acte de naissance.</label><p class="err">Merci de vérifier puis de cocher cette case.</p></div>'+
         '<div class="champ" data-id="c_majeur"><label class="coche"><input type="checkbox" id="c_majeur"> Je certifie être majeur.</label><p class="err">Le Cartographe est réservé aux personnes majeures.</p></div>'+
         '<p class="aide" style="margin-top:18px">Vos réponses servent uniquement à établir votre lecture. Elles ne sont ni publiées ni transmises. <a href="/confidentialite">Confidentialité</a></p>'+
@@ -162,6 +177,8 @@ a{color:var(--or)}
 
   function aller(id){
     document.querySelectorAll('.ecran').forEach(function(e){e.classList.remove('actif');});
+    if(id==='fin'){recap();depuisRecap=false;}
+    if(id!=='fin'&&id!=='merci'&&id!=='intro'){var bs=document.querySelector('#e-'+id+' [data-suite]');if(bs)bs.textContent=depuisRecap?'Revenir à la relecture':((+id)<N-1?'Continuer':'Relire mes réponses');}
     document.getElementById('e-'+id).classList.add('actif');
     var pr=document.getElementById('progression'), n=(id==='fin')?N:(+id);
     pr.hidden=(id==='intro'||id==='merci');
@@ -176,24 +193,36 @@ a{color:var(--or)}
       var v=lire(q), msg='';
       if(q.requis && !v) msg = q.type==='date'?'Indiquez le jour, le mois et l’année.':'Cette réponse est nécessaire.';
       if(!msg && q.type==='email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) msg='Cette adresse ne semble pas valide.';
+      if(!msg && q.type==='heure' && v && v!=='inconnue' && !document.getElementById('f-'+q.id+'-src').value) msg='Indiquez d’où vous tenez cette heure : elle change la précision de la lecture.';
       if(!msg && q.type==='date' && v){var p=v.split('-'),d=new Date(+p[0],+p[1]-1,+p[2]);if(d.getDate()!==+p[2]) msg='Cette date n’existe pas. Vérifiez le jour.';}
       marquer(q.id,msg); if(msg){ok=false; if(!premier) premier=q.id;}
     });
     if(premier){var c=document.querySelector('.champ[data-id="'+premier+'"]');c.scrollIntoView({behavior:'smooth',block:'center'});}
     return ok;
   }
-  main.addEventListener('input',function(ev){var c=ev.target.closest('.champ');if(!c||!c.dataset.id)return;var q=trouver(c.dataset.id);if(!q)return;R[q.id]=lire(q);marquer(q.id,'');sauver();});
+  main.addEventListener('input',function(ev){var c=ev.target.closest('.champ');if(!c||!c.dataset.id)return;var q=trouver(c.dataset.id);if(!q)return;R[q.id]=lire(q);if(q.type==='heure')R[q.id+'_source']=document.getElementById('f-'+q.id+'-src').value;marquer(q.id,'');sauver();});
   main.addEventListener('change',function(ev){
     var c=ev.target.closest('.champ');if(!c||!c.dataset.id)return;var q=trouver(c.dataset.id);if(!q)return;
-    if(q.type==='heure'){var inc=document.getElementById('f-'+q.id+'-inc').checked;document.getElementById('f-'+q.id).disabled=inc;}
+    if(q.type==='heure'){var inc=document.getElementById('f-'+q.id+'-inc').checked;document.getElementById('f-'+q.id).disabled=inc;document.getElementById('f-'+q.id+'-src').hidden=inc;R[q.id+'_source']=inc?'':document.getElementById('f-'+q.id+'-src').value;}
     R[q.id]=lire(q);marquer(q.id,'');sauver();
     document.querySelectorAll('.champ[data-si="'+q.id+'"]').forEach(function(d){var dq=trouver(d.dataset.id);d.hidden=!visible(dq);});
   });
+  function affiche(q){var v=R[q.id]||'';
+    if(q.type==='date'&&v){var p=v.split('-');v=(+p[2])+' '+MOIS[+p[1]-1]+' '+p[0];}
+    if(q.type==='heure'&&v){v=(v==='inconnue')?'Inconnue':v.replace(':','h')+(R[q.id+'_source']?' ('+R[q.id+'_source']+')':'');}
+    return v;}
+  function recap(){
+    document.getElementById('recap').innerHTML=S.map(function(s,i){
+      return '<div class="bloc"><div class="tete"><h3>'+esc(s.titre)+'</h3><button class="modif" data-va="'+i+'">Modifier</button></div><dl>'+
+        s.questions.filter(visible).map(function(q){var v=affiche(q);return '<dt>'+esc(q.label)+'</dt><dd'+(v?'':' class="vide"')+'>'+(v?esc(v):'Sans réponse')+'</dd>';}).join('')+'</dl></div>';
+    }).join('');
+  }
   function trouver(id){for(var i=0;i<S.length;i++)for(var j=0;j<S[i].questions.length;j++)if(S[i].questions[j].id===id)return S[i].questions[j];return null;}
   main.addEventListener('click',function(ev){
     var b=ev.target.closest('button');if(!b)return;
+    if(b.classList.contains('modif')){depuisRecap=true;aller(b.dataset.va);return;}
     if(b.dataset.va!==undefined){aller(b.dataset.va);return;}
-    if(b.dataset.suite!==undefined){var i=+b.dataset.suite;if(!valider(i))return;aller(i<N-1?i+1:'fin');return;}
+    if(b.dataset.suite!==undefined){var i=+b.dataset.suite;if(!valider(i))return;aller((i<N-1&&!depuisRecap)?i+1:'fin');return;}
     if(b.id==='b-envoi') envoyer(b);
   });
 
@@ -202,7 +231,7 @@ a{color:var(--or)}
     ['c_exact','c_majeur'].forEach(function(id){var c=document.getElementById(id).checked;marquer(id,c?'':(id==='c_exact'?'Merci de vérifier puis de cocher cette case.':'Le Cartographe est réservé aux personnes majeures.'));if(!c)ok=false;});
     if(!ok) return;
     for(var i=0;i<N;i++){ if(!S[i].questions.every(function(q){return !visible(q)||!q.requis||R[q.id];})){aller(i);valider(i);return;} }
-    var sections=S.map(function(s){return {titre:s.titre, scelle:!!s.scelle, reponses:s.questions.filter(visible).map(function(q){var v=R[q.id]||'';if(q.type==='date'&&v){var p=v.split('-');v=(+p[2])+' '+MOIS[+p[1]-1]+' '+p[0];}if(q.type==='heure'&&v==='inconnue')v='Inconnue';return {id:q.id,question:q.label,reponse:v};})};});
+    var sections=S.map(function(s){return {titre:s.titre, scelle:!!s.scelle, reponses:s.questions.filter(visible).map(function(q){return {id:q.id,question:q.label,reponse:affiche(q)};})};});
     b.disabled=true; b.textContent='Envoi en cours…';
     var e=document.getElementById('err-envoi'); e.style.display='none';
     fetch('/.netlify/functions/questionnaire',{method:'POST',headers:{'Content-Type':'application/json'},
