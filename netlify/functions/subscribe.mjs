@@ -1,5 +1,11 @@
 const LISTE = 3;
-const MODELE = 10;
+const MODELE = 12;
+const SUJETS = {
+  passe: 'Ce qui arrive juste avant chaque demi-tour',
+  gue: 'Trois sorties pour quitter le rond-point',
+  col: 'À qui appartient votre feu rouge ?',
+  seuil: 'Un premier geste de dix minutes'
+};
 const TEXTE = ['PRENOM','CHEMIN_VIE','ANNEE_PERSO','SIGNE','RELIEF','PORTE','DUREE','MOUVEMENT','ENJEU','PHRASE'];
 const DATES = ['DATE_NAISSANCE','DATE_BASCULE'];
 
@@ -33,9 +39,13 @@ export default async (req) => {
     body: JSON.stringify({
       to: [{ email }],
       templateId: MODELE,
+      ...(SUJETS[attributes.PORTE] ? { subject: SUJETS[attributes.PORTE] } : {}),
       params: {
         PRENOM: attributes.PRENOM || '',
         RELIEF: attributes.RELIEF || '',
+        PORTE: attributes.PORTE || '',
+        DUREE: attributes.DUREE || '',
+        ENJEU: attributes.ENJEU || '',
         DECISION: attributes.PHRASE || ''
       }
     })
