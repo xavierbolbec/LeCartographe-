@@ -37,6 +37,20 @@ a{color:var(--or)}
 footer{margin-top:48px;padding-top:24px;border-top:1px solid rgba(242,230,206,.12);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 .devise{font-size:12px;letter-spacing:.15em;color:var(--texte-doux)}
 footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left:14px}
+
+/* ===== panneaux, comme la page de résultat ===== */
+.pan{background:#13233A;border:1px solid rgba(201,162,39,.28);border-radius:6px;padding:34px 20px 30px;margin:0 -8px 18px}
+.pan.centre{text-align:center}
+.sep{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 auto 18px}
+.sep i{display:block;width:54px;height:1px;background:var(--or)}
+.sep svg{width:12px;height:12px}
+.pan .sur{font-size:12px;font-weight:500;letter-spacing:.16em;margin-bottom:12px}
+.pan h1{margin-bottom:14px}
+.pan .intro{font-family:var(--serif);font-style:italic;font-size:16.5px;margin-bottom:0}
+.pan .carte{background:#182B46;border:1px solid rgba(201,162,39,.2);border-radius:6px;margin:22px 0 0;text-align:center}
+.pan .carte ul{display:inline-block;text-align:left}
+.prix{font-size:34px !important;color:var(--creme) !important}
+button,.bouton{letter-spacing:.06em;text-transform:uppercase;font-size:15px}
 </style>
 </head>
 <body>
@@ -46,17 +60,24 @@ footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left
   <div class="coord">16°15&rsquo;N &mdash; 61°35&rsquo;W</div>
 </header>
 
+<div class="pan centre">
+<div class="sep"><i></i><svg viewBox="0 0 12 12"><path d="M6 0l1.4 4.6L12 6l-4.6 1.4L6 12l-1.4-4.6L0 6l4.6-1.4z" fill="#C9A227"/></svg><i></i></div>
 <p class="sur" id="sur">Paiement reçu</p>
 <h1 id="titre">Merci. Votre commande est enregistrée.</h1>
-<p class="intro" id="intro">Voici ce qui se passe maintenant.</p>
+<p class="intro" id="intro">Voici les trois étapes à venir.</p>
+</div>
 
+<div class="pan">
+<div class="sep"><i></i><svg viewBox="0 0 12 12"><path d="M6 0l1.4 4.6L12 6l-4.6 1.4L6 12l-1.4-4.6L0 6l4.6-1.4z" fill="#C9A227"/></svg><i></i></div>
 <ol class="etapes" id="etapes"></ol>
 
 <div class="encadre"><p>Vous recevez aussi un reçu et votre facture de la part de Stripe, notre prestataire de paiement. Pensez à vérifier vos courriers indésirables si mon message n&rsquo;arrive pas.</p></div>
 
 <p>Une question d&rsquo;ici là&nbsp;? Écrivez-moi à <a href="mailto:xavier.bolbec@gmail.com">xavier.bolbec@gmail.com</a>, je réponds à chaque message.</p>
 
-<p class="signe">Xavier<small>Le Cartographe, Guadeloupe</small></p>
+</div>
+
+<p class="signe" style="text-align:center">Xavier<small>Le Cartographe, Guadeloupe</small></p>
 
 <footer>
   <div class="devise">Respire · Écoute · Agis</div>
@@ -81,7 +102,7 @@ footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left
   };
   var k=(new URLSearchParams(location.search).get('offre')||'').toLowerCase();
   var o=O[k];
-  if(!o){document.getElementById('intro').textContent='Je vous écris sous 24 heures pour la suite.';return;}
+  if(!o){document.getElementById('intro').textContent='Je vous écris sous 24 heures pour la suite.';document.getElementById('etapes').parentNode.style.display='none';return;}
   document.getElementById('sur').textContent=o.nom+' · paiement reçu';
   document.getElementById('titre').textContent='Merci. '+o.nom+' commence maintenant.';
   document.getElementById('etapes').innerHTML=o.etapes.map(function(e){return '<li><b>'+e[0]+'</b><span>'+e[1]+'</span></li>';}).join('');
