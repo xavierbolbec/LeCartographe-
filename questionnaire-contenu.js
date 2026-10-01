@@ -24,7 +24,7 @@ Q.releve = {
   duree: 'Environ 15 minutes',
   chapo: 'Répondez court et concret. Ce que vous ne savez pas, laissez-le vide plutôt que de l’approximer. Vos réponses s’enregistrent au fur et à mesure sur cet appareil : vous pouvez vous arrêter et reprendre plus tard.',
   sections: [
-    ETAT_CIVIL,
+    {titre:ETAT_CIVIL.titre, intro:ETAT_CIVIL.intro, questions:ETAT_CIVIL.questions.filter(function(q){return q.id!=='naissance_heure';})},
     {titre:'Votre projet', intro:'Celui qui vous a amené ici.', questions:[
       {id:'projet', type:'textarea', lignes:3, label:'Le projet que vous repoussez, en une phrase, tel que vous le diriez à quelqu’un de proche', requis:true},
       {id:'projet_depuis', type:'text', label:'Depuis quand y pensez-vous ? L’année, et si possible le mois', requis:true},
