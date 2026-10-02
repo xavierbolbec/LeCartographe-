@@ -191,6 +191,12 @@ select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns=
 .c-tete{background:#182B46;font-weight:500;color:var(--creme)}
 .c-ligne{border-top:1px solid rgba(242,230,206,.09)}
 .c-ligne span:first-child{color:var(--texte-doux)}
+@media (max-width:420px){
+  .c-tete{grid-template-columns:1fr 1fr}.c-tete span:first-child{display:none}
+  .c-ligne{grid-template-columns:1fr 1fr}
+  .c-ligne span:first-child{grid-column:1/-1;border-right:none;padding:9px 11px 0;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase}
+  .c-ligne span{padding:6px 11px 11px}
+}
 .c-or{background:rgba(201,162,39,.1);color:var(--creme)}
 .c-tete .c-or{color:var(--or-clair)}
 .etapes{text-align:left;margin-top:6px}
@@ -631,6 +637,7 @@ const ENJEUX={
 const ANS_MIN={court:0,moyen:1,long:3,tres_long:3};
 const REVENU_MIN={r200:200,r500:500,r2000:2000};
 const NOMBRES=['zéro','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze'];
+const SOURCE_VISITE=((new URLSearchParams(location.search).get('src')||'direct').toLowerCase().replace(/[^a-z0-9_-]/g,'').slice(0,40))||'direct';
 function euros(n){return n.toLocaleString('fr-FR').replace(/\s/g,'\u00a0')+'\u00a0€';}
 function coutAttente(){
   const auj=new Date(); let age=auj.getFullYear()-R.a;
@@ -868,7 +875,7 @@ document.getElementById('btn-final').addEventListener('click', async ()=>{
     const rep = await fetch('/.netlify/functions/subscribe',{
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
-        email:R.email, PRENOM:R.prenom,
+        email:R.email, PRENOM:R.prenom, SOURCE:SOURCE_VISITE,
         DATE_NAISSANCE: R.a+'-'+String(R.m).padStart(2,'0')+'-'+String(R.j).padStart(2,'0'),
         CHEMIN_VIE:cv, ANNEE_PERSO:ap.valeur,
         DATE_BASCULE: dBasc.getFullYear()+'-'+String(R.m).padStart(2,'0')+'-'+String(R.j).padStart(2,'0'),

@@ -6,7 +6,7 @@ const SUJETS = {
   col: 'À qui appartient votre feu rouge ?',
   seuil: 'Un premier geste de dix minutes'
 };
-const TEXTE = ['PRENOM','CHEMIN_VIE','ANNEE_PERSO','SIGNE','RELIEF','PORTE','DUREE','MOUVEMENT','ENJEU','PHRASE'];
+const TEXTE = ['PRENOM','CHEMIN_VIE','ANNEE_PERSO','SIGNE','RELIEF','PORTE','DUREE','MOUVEMENT','ENJEU','PHRASE','REVENU','CAUSE'];
 const DATES = ['DATE_NAISSANCE','DATE_BASCULE'];
 
 export default async (req) => {
@@ -22,7 +22,8 @@ export default async (req) => {
   const attributes = {};
   for (const c of TEXTE) if (d[c] != null && String(d[c]).trim()) attributes[c] = String(d[c]).trim();
   for (const c of DATES) if (/^\d{4}-\d{2}-\d{2}$/.test(d[c] || '')) attributes[c] = d[c];
-  attributes.SOURCE = 'releve-express';
+  const src = String(d.SOURCE || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40);
+  attributes.SOURCE = src ? 'releve-' + src : 'releve-direct';
   attributes.DATE_RELEVE = new Date().toISOString().slice(0, 10);
 
   const rep = await fetch('https://api.brevo.com/v3/contacts', {
@@ -46,6 +47,7 @@ export default async (req) => {
         PORTE: attributes.PORTE || '',
         DUREE: attributes.DUREE || '',
         ENJEU: attributes.ENJEU || '',
+        REVENU: attributes.REVENU || '',
         DECISION: attributes.PHRASE || ''
       }
     })
