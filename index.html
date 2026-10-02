@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Le Relevé express · Le Cartographe</title>
-<meta name="description" content="10 questions, 90 secondes. Pourquoi ce projet n'avance pas, et comment vous bloquez.">
+<meta name="description" content="11 questions, 90 secondes. Pourquoi ce projet n'avance pas, et comment vous bloquez.">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="Le Relevé express · Le Cartographe">
 <meta property="og:description" content="Ce n'est pas un test de personnalité. Ça se calcule.">
@@ -218,6 +218,7 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
 .mentions a{color:var(--texte-doux);font-size:12px;text-decoration:none;margin-left:14px}
 .mentions a:hover{color:var(--or)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#r-cout b{color:var(--or);font-weight:600}
 </style>
 </head>
 <body>
@@ -237,13 +238,13 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
 
   <div id="progression" hidden>
     <div class="jauge"><span id="jauge-barre"></span></div>
-    <div class="etape-num" id="etape-num">Question 1 sur 10</div>
+    <div class="etape-num" id="etape-num">Question 1 sur 11</div>
   </div>
 
   <!-- ========== ACCUEIL ========== -->
   <section class="ecran actif" id="ecr-0">
     <h1>Le Relevé express</h1>
-    <p class="chapo">10 questions. 90 secondes.</p>
+    <p class="chapo">11 questions. 90 secondes.</p>
     <p class="chapo">Vous découvrez pourquoi ce projet que vous repoussez n&rsquo;avance pas, et comment vous bloquez.</p>
     <div class="filet"></div>
     <p class="chapo">Ce n&rsquo;est pas un test de personnalité. Ça se calcule.</p>
@@ -339,12 +340,23 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
     <div class="actions"><button class="lien-retour" data-va="7">Retour</button></div>
   </section>
 
+  <section class="ecran" id="ecr-7b">
+    <h2>Si ce projet tournait, que vous rapporterait-il chaque mois&nbsp;?</h2>
+    <div class="choix" data-q="revenu">
+      <button class="opt" data-v="rien">Rien, ce n&rsquo;est pas son but</button>
+      <button class="opt" data-v="r200">De 200 à 500&nbsp;€</button>
+      <button class="opt" data-v="r500">De 500 à 2&nbsp;000&nbsp;€</button>
+      <button class="opt" data-v="r2000">Plus de 2&nbsp;000&nbsp;€</button>
+    </div>
+    <div class="actions"><button class="lien-retour" data-va="8">Retour</button></div>
+  </section>
+
   <section class="ecran" id="ecr-8">
     <h2>En une phrase&nbsp;: le projet que vous repoussez</h2>
     <p class="chapo">Facultatif. Mais si vous l&rsquo;écrivez, je la lis.</p>
     <textarea id="phrase" maxlength="200" placeholder="Une phrase suffit."></textarea>
-    <div class="actions"><button class="btn" data-va="10">Continuer</button>
-      <button class="lien-retour" data-va="8">Retour</button></div>
+    <div class="actions"><button class="btn" data-va="11">Continuer</button>
+      <button class="lien-retour" data-va="9">Retour</button></div>
   </section>
 
   <section class="ecran" id="ecr-9">
@@ -357,7 +369,7 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
     <p class="err" id="err-9"></p>
     <p class="note" style="margin-top:6px">Le Relevé express est réservé aux personnes majeures.</p>
     <div class="actions"><button class="btn" id="btn-final">Afficher mon relevé</button>
-      <button class="lien-retour" data-va="9">Retour</button></div>
+      <button class="lien-retour" data-va="10">Retour</button></div>
   </section>
 
   <!-- ========== RESULTAT ========== -->
@@ -423,7 +435,7 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
         <div class="compare">
           <div class="c-tete"><span></span><span>Relevé express</span><span class="c-or">Le Relevé</span></div>
           <div class="c-ligne"><span>Ce qu&rsquo;il vous dit</span><span>Comment vous bloquez</span><span class="c-or">Pourquoi vous bloquez, et par où sortir</span></div>
-          <div class="c-ligne"><span>Sur quoi il repose</span><span>9 réponses rapides</span><span class="c-or">Un questionnaire complet sur votre projet</span></div>
+          <div class="c-ligne"><span>Sur quoi il repose</span><span>11 réponses rapides</span><span class="c-or">Un questionnaire complet sur votre projet</span></div>
           <div class="c-ligne"><span>À qui il s&rsquo;adresse</span><span>Un profil partagé avec d&rsquo;autres</span><span class="c-or">Vous seul</span></div>
           <div class="c-ligne"><span>Comment il est produit</span><span>Calculé automatiquement</span><span class="c-or">Écrit par le Cartographe</span></div>
           <div class="c-ligne"><span>Ce que vous en faites</span><span>Vous comprenez</span><span class="c-or">Vous agissez, avec un premier pas daté</span></div>
@@ -460,7 +472,7 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
       <div class="carte-int">
         <div class="sur-titre">Votre prochaine étape</div>
         <h2 class="offre-titre">Le Relevé</h2>
-        <p class="offre-sous">Votre boussole, et votre premier pas. Une lecture écrite pour vous seul.</p>
+        <p class="offre-sous">Dans 7 jours, vous savez ce qui bloque ce projet, et le geste précis à poser dès le lendemain. Une lecture écrite pour vous seul.</p>
         <p class="offre-lieu">Réalisé à distance, reçu sous 7 jours</p>
         <div class="prix3">397&nbsp;€</div>
         <div class="prix-sous">Paiement unique, sans abonnement</div>
@@ -535,6 +547,7 @@ const QUESTIONS={
   cause:['Juste avant de lâcher ce projet, la dernière fois',{regard:'quelqu’un m’a demandé où j’en étais',chemin:'je ne savais plus quelle était l’étape suivante',exigence:'ce que j’avais fait ne me semblait pas à la hauteur',priorite:'autre chose est passé devant'}],
   duree:['Depuis combien de temps vous le repoussez',{court:'moins d’un an',moyen:'un à trois ans',long:'trois à dix ans',tres_long:'plus longtemps que je ne veux l’admettre'}],
   mouvement:['Ce qui a changé chez vous ces douze derniers mois',{rien:'rien, et c’est précisément ce qui m’inquiète',trop:'beaucoup, et trop vite',arret:'j’ai arrêté quelque chose',debut:'j’ai commencé quelque chose'}],
+  revenu:['Ce que ce projet vous rapporterait chaque mois',{rien:'rien, ce n’est pas son but',r200:'de 200 à 500 €',r500:'de 500 à 2 000 €',r2000:'plus de 2 000 €'}],
   enjeu:['Si ce projet n’a toujours pas avancé dans un an',{tenable:'je vivrai avec',couteux:'je le regretterai, mais je ferai avec',casse:'je crois que je l’abandonnerai',evite:'je ne veux pas y penser'}]
 };
 const CAUSES={
@@ -583,6 +596,26 @@ const ENJEUX={
   casse:'vous dites que vous l\u2019abandonnerez sans doute.',
   evite:'vous dites que vous ne voulez pas y penser.'
 };
+const ANS_MIN={court:0,moyen:1,long:3,tres_long:3};
+const REVENU_MIN={r200:200,r500:500,r2000:2000};
+const NOMBRES=['zéro','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze'];
+function euros(n){return n.toLocaleString('fr-FR').replace(/\s/g,'\u00a0')+'\u00a0€';}
+function coutAttente(){
+  const auj=new Date(); let age=auj.getFullYear()-R.a;
+  if((auj.getMonth()+1)<R.m || ((auj.getMonth()+1)===R.m && auj.getDate()<R.j)) age--;
+  const y=ANS_MIN[R.duree]??0, horizon=5, ageH=age+horizon, projetH=y+horizon;
+  const pm=REVENU_MIN[R.revenu], L=[];
+  L.push(y>0
+    ? 'Vous repoussez ce projet depuis au moins '+NOMBRES[y]+(y>1?' ans':' an')+'. '+(y>1?'Au moins '+NOMBRES[y]+' 1<sup>er</sup> janvier':'Au moins un 1<sup>er</sup> janvier')+' où vous vous êtes dit&nbsp;: cette année, c’est la bonne.'
+    : 'Vous repoussez ce projet depuis moins d’un an. C’est le seul moment où l’attente ne coûte presque rien. Elle commence à coûter dès maintenant.');
+  if(pm){
+    L.push('Vous estimez qu’il vous rapporterait au moins <b>'+euros(pm)+'</b> par mois. Chaque année d’attente, c’est donc au moins <b>'+euros(pm*12)+'</b> qui n’arrivent pas.'
+      +(y>1?' Depuis que vous le repoussez&nbsp;: au moins <b>'+euros(pm*12*y)+'</b>.':''));
+  }
+  L.push('Vous avez '+age+' ans. Si rien ne change, à '+ageH+' ans, ce projet aura au moins '+NOMBRES[projetH]+' ans et sera exactement là où il est ce soir.'
+    +(pm?' Ce qu’il ne vous aura pas rapporté dépassera alors <b>'+euros(pm*12*projetH)+'</b>.':''));
+  return L.map(t=>'<p>'+t+'</p>').join('');
+}
 function verdict(duree,enjeu){
   const longue = (duree==='long' || duree==='tres_long');
   if(enjeu==='evite')
@@ -675,7 +708,7 @@ function anneePerso(j,m){
 /* ============ etat et navigation ============ */
 const R={};
 let ecranCourant=0;
-const ORDRE=['ecr-0','ecr-1','ecr-2','ecr-3','ecr-4','ecr-4b','ecr-5','ecr-6','ecr-7','ecr-8','ecr-9'];
+const ORDRE=['ecr-0','ecr-1','ecr-2','ecr-3','ecr-4','ecr-4b','ecr-5','ecr-6','ecr-7','ecr-7b','ecr-8','ecr-9'];
 
 function aller(i){
   document.querySelectorAll('.ecran').forEach(e=>e.classList.remove('actif'));
@@ -684,8 +717,8 @@ function aller(i){
   const prog=document.getElementById('progression');
   prog.hidden = (i===0);
   if(i>0){
-    document.getElementById('jauge-barre').style.width = Math.round(i/10*100)+'%';
-    document.getElementById('etape-num').textContent = 'Question '+i+' sur 10';
+    document.getElementById('jauge-barre').style.width = Math.round(i/11*100)+'%';
+    document.getElementById('etape-num').textContent = 'Question '+i+' sur 11';
   }
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -724,7 +757,7 @@ function valider(i){
     }
     R.j=j; R.m=m; R.a=a; return true;
   }
-  if(i===9){ R.phrase=document.getElementById('phrase').value.trim(); return true; }
+  if(i===10){ R.phrase=document.getElementById('phrase').value.trim(); return true; }
   return true;
 }
 
@@ -764,7 +797,7 @@ document.getElementById('btn-final').addEventListener('click', async ()=>{
   document.getElementById('r-bonne').textContent = BONNE[R.porte];
 
   const D='<svg viewBox="0 0 10 10"><path d="M5 0l5 5-5 5-5-5z" fill="#C9A227"/></svg>';
-  document.getElementById('r-reps').innerHTML = ['relief','porte','cause','duree','mouvement','enjeu']
+  document.getElementById('r-reps').innerHTML = ['relief','porte','cause','duree','mouvement','enjeu','revenu']
     .filter(k=>R[k]).map(k=>'<div class="rep">'+D+'<div><b>'+QUESTIONS[k][0]+'</b><small>Vous avez répondu : '+QUESTIONS[k][1][R[k]]+'</small></div></div>').join('')
     + (R.phrase ? '<div class="rep">'+D+'<div><b>Votre projet, dans vos mots</b><small>« '+echap(R.phrase)+' »</small></div></div>' : '');
   document.getElementById('r-synthese').innerHTML =
@@ -781,11 +814,9 @@ document.getElementById('btn-final').addEventListener('click', async ()=>{
   document.getElementById('r-pourquoi').innerHTML = '<p class="t">'+por.pourquoi+'</p>';
 
   document.getElementById('r-cout').innerHTML =
-    '<p>Vous repoussez ce projet depuis '+(DUREES[R.duree]||'un certain temps.')+'</p>'+
-    '<p>Et s’il n’a toujours pas avancé dans un an, '+(ENJEUX[R.enjeu]||'vous préférez ne pas conclure.')+'</p>'+
-    '<p>'+verdict(R.duree,R.enjeu)+'</p>';
+    coutAttente()+'<p>'+verdict(R.duree,R.enjeu)+'</p>';
   document.getElementById('r-cout-or').textContent =
-    'Si rien ne change, dans un an vous vous poserez la même question, avec une année de moins pour y répondre.';
+    'Chaque année d’attente coûte la même chose : une année de moins pour le faire.';
 
   const dBasc=new Date(ap.anneeRef, R.m-1, R.j);
   document.getElementById('r-bascule').textContent = 'Vous savez maintenant que vous êtes '+por.au+'. Savoir où l’on est ne dit pas par où sortir.';
@@ -808,7 +839,7 @@ document.getElementById('btn-final').addEventListener('click', async ()=>{
         DATE_NAISSANCE: R.a+'-'+String(R.m).padStart(2,'0')+'-'+String(R.j).padStart(2,'0'),
         CHEMIN_VIE:cv, ANNEE_PERSO:ap.valeur,
         DATE_BASCULE: dBasc.getFullYear()+'-'+String(R.m).padStart(2,'0')+'-'+String(R.j).padStart(2,'0'),
-        SIGNE:sg, RELIEF:R.relief, PORTE:R.porte, CAUSE:R.cause||'',
+        SIGNE:sg, RELIEF:R.relief, PORTE:R.porte, CAUSE:R.cause||'', REVENU:R.revenu||'',
         DUREE:R.duree||'', MOUVEMENT:R.mouvement||'', ENJEU:R.enjeu||'', PHRASE:R.phrase||''
       })
     });
