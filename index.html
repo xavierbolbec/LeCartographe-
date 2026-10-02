@@ -393,13 +393,13 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
 
       <div class="bloc-s">
         <div class="sep"><i></i><svg viewBox="0 0 12 12"><path d="M6 0l1.4 4.6L12 6l-4.6 1.4L6 12l-1.4-4.6L0 6l4.6-1.4z" fill="#C9A227"/></svg><i></i></div>
-        <h2 class="p-h2">Ce que votre date y ajoute</h2>
+        <h2 class="p-h2">Ce que votre date de naissance dit de vous</h2>
         <div id="r-date"></div>
       </div>
 
       <div class="bloc-s">
         <div class="sep"><i></i><svg viewBox="0 0 12 12"><path d="M6 0l1.4 4.6L12 6l-4.6 1.4L6 12l-1.4-4.6L0 6l4.6-1.4z" fill="#C9A227"/></svg><i></i></div>
-        <h2 class="p-h2">Pourquoi ça ne se règle pas seul</h2>
+        <h2 class="p-h2">Pourquoi c&rsquo;est si dur d&rsquo;y arriver seul</h2>
         <div id="r-pourquoi"></div>
       </div>
 
@@ -534,19 +534,19 @@ const PORTES={
   passe:{nom:'Le Demi-tour', au:'au Demi\u2011tour',
     def:'Vous partez vite, puis vous revenez sur vos pas. Le projet démarre souvent. Il ne s\u2019installe jamais.',
     symptome:'vous vous lancez, puis vous faites marche arrière', faux:'de l\u2019inconstance',
-    pourquoi:'Au Demi-tour, relancer ne sert à rien&nbsp;: vous savez démarrer. Ce qui vous manque, c\u2019est la raison de rester sur la route quand le doute revient.'},
+    pourquoi:['Vous avez déjà recommencé. Plusieurs fois.','Et à chaque fois, ça s’arrête au même endroit. Ce n’est pas un hasard : tant que vous ne savez pas ce qui vous fait reculer, vous repartirez pour vous arrêter au même endroit.','Seul, on ne voit pas son propre schéma, parce qu’on est dedans. Quelqu’un de l’extérieur, lui, le voit.']},
   gue:{nom:'Le Rond-point', au:'au Rond\u2011point',
     def:'Vous tournez autour du projet sans jamais prendre de sortie. Chaque matin, la même question revient.',
     symptome:'vous y pensez sans arrêt, sans jamais trancher', faux:'de l\u2019indécision',
-    pourquoi:'Au Rond-point, réfléchir davantage ne sert à rien&nbsp;: vous avez déjà fait le tour cent fois. Ce qui vous manque, c\u2019est de savoir quelle sortie est la vôtre.'},
+    pourquoi:['Vous avez déjà retourné la question dans tous les sens. Pendant des mois, peut-être.','Réfléchir encore ne vous aidera pas. C’est justement votre façon de rester sur place sans vous en rendre compte.','Ce qui vous manque, c’est une règle simple pour choisir. Seul, on n’arrive pas à la poser, parce qu’on veut garder toutes les portes ouvertes.']},
   col:{nom:'Le Feu rouge', au:'au Feu\u00a0rouge',
     def:'Vous êtes prêt à passer. Vous attendez que quelqu\u2019un vous donne le vert.',
     symptome:'vous attendez un avis, un signe, une validation', faux:'un manque de confiance',
-    pourquoi:'Au Feu rouge, un avis de plus ne suffira pas&nbsp;: il en faudra toujours un autre. Ce qui vous manque, c\u2019est un repère qui vienne de vous, pas des autres.'},
+    pourquoi:['Vous avez déjà demandé conseil. Plusieurs fois, sans doute.','Le problème, c’est que chaque avis vous fait douter un peu plus. Vous attendez un oui, et personne autour de vous ne peut le dire à votre place.','Ce qu’il vous faut, ce n’est pas un avis de plus. C’est de savoir ce que vous, vous voulez. Une fois que c’est clair, vous n’avez plus besoin d’attendre personne.']},
   seuil:{nom:'Le Pied du mur', au:'au Pied du\u00a0mur',
     def:'Vous savez ce qu\u2019il faut faire. Le premier geste, lui, ne vient pas.',
     symptome:'vous savez ce qu\u2019il faut faire, mais vous ne démarrez pas', faux:'un manque de courage',
-    pourquoi:'Au Pied du mur, un plan de plus ne changera rien&nbsp;: vous savez déjà quoi faire. Ce qui vous manque, c\u2019est le point d\u2019appui pour le premier geste.'}
+    pourquoi:['Vous savez quoi faire. Vous avez peut-être même un plan.','Mais un plan de plus ne changera rien. Le problème n’est pas de savoir, c’est de commencer.','Ce qui aide, c’est un premier geste tout petit, avec une date, et quelqu’un à qui vous l’avez dit. Seul, on trouve toujours une bonne raison de remettre à demain.']}
 };
 
 const QUESTIONS={
@@ -643,20 +643,20 @@ function verdict(duree,enjeu){
 const ANNEES_QUI_POUSSENT=[1,3,5,8];
 const MOUVEMENTS={
   rien:{
-    concordance:'Vous dites que rien n\u2019a changé ces douze derniers mois, et vous êtes en année de {n}. Rien n\u2019a changé parce que rien ne devait changer. Ce que vous prenez pour de la stagnation est le rythme de l\u2019année.',
-    dissonance:'Vous dites que rien n\u2019a changé ces douze derniers mois, et vous êtes en année de {n}. Ces deux phrases ne tiennent pas ensemble. Soit quelque chose a bougé sans être enregistré, soit vous retenez quelque chose qui pousse.'
+    concordance:'Vous dites que rien n’a bougé ces douze derniers mois. Ça colle avec votre année : elle ne pousse pas à bouger. Ce n’est pas de la paresse, c’est son rythme.',
+    dissonance:'Vous dites que rien n’a bougé ces douze derniers mois. Pourtant, votre année pousse à avancer. Soit quelque chose a bougé sans que vous le remarquiez, soit vous vous retenez.'
   },
   trop:{
-    concordance:'Vous dites que beaucoup a changé, et trop vite. Vous êtes en année de {n} : la vitesse n\u2019est pas une erreur de votre part. La seule question est ce qu\u2019elle emporte au passage.',
-    dissonance:'Vous dites que beaucoup a changé, et trop vite, alors que vous êtes en année de {n}. Une telle année ne produit pas cette vitesse : elle vient d\u2019ailleurs. Vous suivez un rythme qui n\u2019est pas le vôtre.'
+    concordance:'Vous dites que beaucoup de choses ont changé, et trop vite. Ça colle avec votre année : elle va vite. Ce n’est pas votre faute. La vraie question, c’est ce que vous voulez garder.',
+    dissonance:'Vous dites que beaucoup de choses ont changé, et trop vite. Pourtant, votre année est plutôt calme. Cette vitesse vient donc d’ailleurs : vous suivez peut-être le rythme de quelqu’un d’autre.'
   },
   arret:{
-    concordance:'Vous avez arrêté quelque chose cette année, et vous êtes en année de {n}. Ici, rien ne se contredit : c\u2019est exactement le geste que l\u2019année demandait. On solde rarement par hasard, et ce qui a été arrêté cette année ne se rouvre en général pas.',
-    dissonance:'Vous avez arrêté quelque chose cette année, alors que vous êtes en année de {n}, qui ouvre plus qu\u2019elle ne clôt. Vérifiez ce que cet arrêt a libéré : dans ce calendrier, c\u2019est presque toujours une place, pas une perte.'
+    concordance:'Vous avez arrêté quelque chose cette année. Ça colle avec votre année : c’est une année où l’on fait de la place. C’était sans doute le bon geste.',
+    dissonance:'Vous avez arrêté quelque chose cette année, alors que votre année pousse plutôt à commencer. Regardez ce que cet arrêt vous a libéré : souvent, c’est de la place pour autre chose.'
   },
   debut:{
-    concordance:'Vous avez commencé quelque chose cette année, et vous êtes en année de {n}. Le calendrier et le geste vont dans le même sens : ce qui démarre cette année a de bonnes chances de tenir.',
-    dissonance:'Vous avez commencé quelque chose cette année, alors que vous êtes en année de {n}, qui termine plus qu\u2019elle n\u2019ouvre. Ce n\u2019est pas une erreur, mais cela explique pourquoi le démarrage est plus lent que prévu.'
+    concordance:'Vous avez commencé quelque chose cette année. Ça colle avec votre année : elle pousse à commencer. Vous allez dans le bon sens.',
+    dissonance:'Vous avez commencé quelque chose cette année, alors que votre année pousse plutôt à finir. Ce n’est pas une erreur, mais ça explique pourquoi les choses démarrent plus lentement que prévu.'
   }
 };
 function calendrier(mouvement,valeurAnnee,nature){
@@ -668,31 +668,31 @@ function calendrier(mouvement,valeurAnnee,nature){
 
 /* ============ chemin de vie ============ */
 const CV={
-  1:'Votre date pose le terrain de quelqu\u2019un qui ouvre. Qui va devant, souvent seul, et à qui on demande ensuite pourquoi il n\u2019attend pas.',
-  2:'Votre date pose le terrain de quelqu\u2019un qui perçoit avant les autres. Cette finesse a un coût : elle capte aussi ce qui ne le regarde pas.',
-  3:'Votre date pose le terrain de quelqu\u2019un qui exprime. La parole vient facilement, ce qui rend le silence, quand il s\u2019impose, particulièrement difficile à tenir.',
-  4:'Votre date pose le terrain de quelqu\u2019un qui construit. La structure rassure, et la même structure enferme quand elle n\u2019est plus interrogée.',
-  5:'Votre date pose le terrain de quelqu\u2019un qui a besoin d\u2019air. L\u2019immobilité y coûte plus cher qu\u2019ailleurs.',
-  6:'Votre date pose le terrain de quelqu\u2019un vers qui les autres se tournent. On y porte, souvent sans avoir été consulté.',
-  7:'Votre date pose le terrain de quelqu\u2019un qui cherche à comprendre avant d\u2019agir. Le retrait y est une méthode, pas une fuite, sauf quand il dure.',
-  8:'Votre date pose le terrain de quelqu\u2019un qui compose avec le pouvoir et la matière. Les enjeux y sont rarement petits.',
-  9:'Votre date pose le terrain de quelqu\u2019un qui termine ce que d\u2019autres ont laissé ouvert. On y solde beaucoup.',
-  11:'Votre date pose un terrain à haute tension. La perception y est en avance sur les mots, ce qui rend l\u2019explication épuisante.',
-  22:'Votre date pose le terrain du bâtisseur. L\u2019échelle des projets y dépasse souvent ce que l\u2019entourage juge raisonnable.',
-  33:'Votre date pose un terrain de transmission. Ce qui est porté l\u2019est rarement pour soi seul.'
+  1:'Votre date de naissance montre quelqu’un qui ouvre la voie. Vous aimez aller devant, quitte à être seul. Le revers : attendre les autres vous coûte beaucoup.',
+  2:'Votre date de naissance montre quelqu’un qui ressent les choses avant les autres. C’est une force. Le revers : vous captez aussi ce qui ne vous concerne pas.',
+  3:'Votre date de naissance montre quelqu’un qui s’exprime facilement. Les mots viennent tout seuls. Le revers : avancer en silence, sans en parler, vous est plus difficile.',
+  4:'Votre date de naissance montre quelqu’un qui construit, pas à pas. Vous aimez ce qui est solide. Le revers : ce qui vous rassure peut aussi vous enfermer.',
+  5:'Votre date de naissance montre quelqu’un qui a besoin de bouger. La routine vous pèse. Le revers : rester sur place vous coûte plus qu’aux autres.',
+  6:'Votre date de naissance montre quelqu’un sur qui les autres comptent. Vous portez beaucoup. Le revers : vos propres projets passent souvent après.',
+  7:'Votre date de naissance montre quelqu’un qui a besoin de comprendre avant d’agir. Prendre du recul, c’est votre façon de faire. Le revers : quand le recul dure trop, il devient une pause sans fin.',
+  8:'Votre date de naissance montre quelqu’un fait pour les grands enjeux. Vous visez haut. Le revers : plus l’enjeu est gros, plus on hésite à se lancer.',
+  9:'Votre date de naissance montre quelqu’un qui sait terminer les choses. Le revers : vous passez parfois plus de temps à finir pour les autres qu’à commencer pour vous.',
+  11:'Votre date de naissance montre quelqu’un de très intuitif. Vous sentez les choses avant de pouvoir les expliquer. Le revers : faire comprendre aux autres ce que vous voulez vous demande beaucoup d’efforts.',
+  22:'Votre date de naissance montre quelqu’un qui voit grand et sait bâtir. Vos projets dépassent souvent ce que votre entourage trouve raisonnable. Le revers : un projet très grand est plus dur à commencer.',
+  33:'Votre date de naissance montre quelqu’un qui transmet. Ce que vous faites, vous le faites rarement pour vous seul. Le revers : votre projet à vous passe souvent après celui des autres.'
 };
 
 /* ============ annee personnelle ============ */
 const AP={
-  1:{nature:'ouverture', vrai:'une période de ouverture ne consolide pas : elle amorce, et l\u2019amorce est toujours mal assurée'},
-  2:{nature:'lenteur',   vrai:'une période de lenteur ne se force pas : elle mûrit, et le mûrissement ressemble beaucoup à l\u2019immobilité'},
-  3:{nature:'dispersion',vrai:'une période de dispersion ouvre plusieurs directions à la fois : le doute y est un effet du nombre, pas du jugement'},
-  4:{nature:'travail',   vrai:'une période de travail demande de poser des fondations, et poser des fondations ne produit rien de visible pendant longtemps'},
-  5:{nature:'mouvement', vrai:'une période de mouvement pousse au déplacement : rester en place y devient réellement coûteux'},
-  6:{nature:'charge',    vrai:'une période de charge ramène vers les autres, et ce qui vous appartient en propre y devient difficile à distinguer'},
-  7:{nature:'retrait',   vrai:'une période de retrait demande du recul, et le recul se confond aisément avec le blocage'},
-  8:{nature:'engagement',vrai:'une période de engagement met des enjeux réels sur la table : l\u2019hésitation y est proportionnelle à ce qui est en jeu'},
-  9:{nature:'fin',       vrai:'une période de fin ne se démarre pas : elle se termine, et on ne tranche pas de la même manière selon qu\u2019on ouvre ou qu\u2019on solde'}
+  1:{annee:'une année pour commencer', nature:'ouverture', vrai:'une période de ouverture ne consolide pas : elle amorce, et l\u2019amorce est toujours mal assurée'},
+  2:{annee:'une année pour prendre son temps', nature:'lenteur',   vrai:'une période de lenteur ne se force pas : elle mûrit, et le mûrissement ressemble beaucoup à l\u2019immobilité'},
+  3:{annee:'une année où l’on part dans plusieurs directions', nature:'dispersion',vrai:'une période de dispersion ouvre plusieurs directions à la fois : le doute y est un effet du nombre, pas du jugement'},
+  4:{annee:'une année pour construire', nature:'travail',   vrai:'une période de travail demande de poser des fondations, et poser des fondations ne produit rien de visible pendant longtemps'},
+  5:{annee:'une année de changements', nature:'mouvement', vrai:'une période de mouvement pousse au déplacement : rester en place y devient réellement coûteux'},
+  6:{annee:'une année où l’on s’occupe beaucoup des autres', nature:'charge',    vrai:'une période de charge ramène vers les autres, et ce qui vous appartient en propre y devient difficile à distinguer'},
+  7:{annee:'une année pour prendre du recul', nature:'retrait',   vrai:'une période de retrait demande du recul, et le recul se confond aisément avec le blocage'},
+  8:{annee:'une année où l’on s’engage pour de bon', nature:'engagement',vrai:'une période de engagement met des enjeux réels sur la table : l\u2019hésitation y est proportionnelle à ce qui est en jeu'},
+  9:{annee:'une année pour terminer', nature:'fin',       vrai:'une période de fin ne se démarre pas : elle se termine, et on ne tranche pas de la même manière selon qu\u2019on ouvre ou qu\u2019on solde'}
 };
 
 const SIGNES=[[1,20,'Capricorne'],[2,19,'Verseau'],[3,21,'Poissons'],[4,20,'Bélier'],[5,21,'Taureau'],
@@ -816,15 +816,15 @@ document.getElementById('btn-final').addEventListener('click', async ()=>{
 
   document.getElementById('r-date').innerHTML =
     '<p class="t">'+CV[cv]+'</p>'+
-    '<p class="t">Votre date vous place, cette année, dans une période de '+apd.nature+'. '+calendrier(R.mouvement, ap.valeur, apd.nature)+'</p>'+
-    '<p class="p-or">Ce que vous prenez pour un défaut de caractère est peut-être un calendrier qui n’est pas le vôtre.</p>';
+    '<p class="t">Cette année, pour vous, c’est '+apd.annee+'. '+calendrier(R.mouvement, ap.valeur, apd.nature)+'</p>'+
+    '<p class="p-or">Il n’y a rien de cassé chez vous. Il y a juste un rythme que personne ne vous a jamais montré.</p>';
 
-  document.getElementById('r-pourquoi').innerHTML = '<p class="t">'+por.pourquoi+'</p>';
+  document.getElementById('r-pourquoi').innerHTML = por.pourquoi.map(t=>'<p class="t">'+t+'</p>').join('')+'<p class="p-or">Vous n’avez jamais eu à tout porter seul.</p><p class="t">C’est mon travail dans Le Relevé : regarder de l’extérieur ce que vous ne pouvez pas voir de l’intérieur, et vous donner le premier geste.</p>';
 
   document.getElementById('r-cout').innerHTML =
     coutAttente()+'<p>'+verdict(R.duree,R.enjeu)+'</p>';
   document.getElementById('r-cout-or').textContent =
-    'Chaque année d’attente coûte la même chose : une année de moins pour le faire.';
+    'Quelque part, il y a encore la personne qui rêvait de ce projet. Elle attend toujours que vous lui donniez raison.';
 
   const dBasc=new Date(ap.anneeRef, R.m-1, R.j);
   document.getElementById('r-bascule').textContent = 'Vous savez maintenant que vous êtes '+por.au+'. Savoir où l’on est ne dit pas par où sortir.';
