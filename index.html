@@ -219,6 +219,18 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
 .mentions a:hover{color:var(--or)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 #r-cout b{color:var(--or);font-weight:600}
+/* ===== design v5 : hiérarchie, lecture, confiance ===== */
+.sur-acc{font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--or);margin-bottom:14px}
+#ecr-0 h1{font-size:clamp(27px,7.4vw,38px);line-height:1.2}
+.btn-acc{width:100%;padding:17px 30px;font-size:16px}
+@media (min-width:700px){.btn-acc{width:auto}}
+.signe-acc{display:flex;align-items:center;gap:12px;margin-top:26px}
+.signe-acc img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid rgba(201,162,39,.5)}
+.signe-acc b{display:block;font-weight:500;font-size:14px;color:var(--creme);line-height:1.3}
+.signe-acc small{display:block;font-size:12.5px;color:var(--texte-doux)}
+.pan p.t,.encart p,#r-synthese p,#r-date p,#r-pourquoi p{text-align:left}
+.lien-stripe-2{margin-top:22px}
+.sous-cta{font-size:13px;color:var(--texte-doux);margin-top:10px}
 </style>
 </head>
 <body>
@@ -243,12 +255,13 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
 
   <!-- ========== ACCUEIL ========== -->
   <section class="ecran actif" id="ecr-0">
-    <h1>Le Relevé express</h1>
-    <p class="chapo" style="font-size:1.18em;color:#F2E6CE;line-height:1.4">Combien vous coûte le projet que vous repoussez depuis des années&nbsp;?</p>
+    <div class="sur-acc">Le Relevé express</div>
+    <h1>Combien vous coûte le projet que vous repoussez depuis des années&nbsp;?</h1>
     <p class="chapo">11 questions, 90 secondes. Vous voyez comment vous le bloquez, et ce que l&rsquo;attente vous a déjà coûté.</p>
     <div class="filet"></div>
     <p class="chapo">Offert, sans prédiction. Votre résultat s&rsquo;affiche à l&rsquo;écran, sans attendre.</p>
-    <div class="actions"><button class="btn" data-va="1">Commencer le relevé</button></div>
+    <div class="actions"><button class="btn btn-acc" data-va="1">Commencer le relevé</button></div>
+    <div class="signe-acc"><img id="acc-portrait" alt="Xavier Bolbec" width="44" height="44"><span><b>Xavier Bolbec</b><small>Le Cartographe, Guadeloupe</small></span></div>
   </section>
 
   <!-- ========== QUESTIONS ========== -->
@@ -408,6 +421,8 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
         <h2 class="p-h2">Ce que l&rsquo;attente vous coûte</h2>
         <div class="encart" id="r-cout"></div>
         <p class="p-or" id="r-cout-or"></p>
+        <a class="btn btn-grand lien-stripe-2" href="https://buy.stripe.com/28EeVd0j47Sj1iIbkgb7y00">Je reçois mon Relevé</a>
+        <p class="sous-cta">397&nbsp;€, paiement unique. Reçu sous 7 jours.</p>
       </div>
     </div>
 
@@ -838,6 +853,7 @@ document.getElementById('btn-final').addEventListener('click', async ()=>{
   const dBasc=new Date(ap.anneeRef, R.m-1, R.j);
   document.getElementById('r-bascule').textContent = 'Vous savez maintenant que vous êtes '+por.au+'. Savoir où l’on est ne dit pas par où sortir.';
   document.getElementById('lien-stripe').href = 'https://buy.stripe.com/28EeVd0j47Sj1iIbkgb7y00?prefilled_email='+encodeURIComponent(R.email);
+  document.querySelectorAll('.lien-stripe-2').forEach(a=>{a.href=document.getElementById('lien-stripe').href;});
   document.getElementById('f-titre').textContent = 'Le Relevé de '+R.prenom;
   document.getElementById('f-projet').textContent = R.phrase ? '« '+R.phrase+' »' : 'Votre projet, '+por.au;
 
@@ -868,5 +884,6 @@ document.getElementById('btn-final').addEventListener('click', async ()=>{
   }
 });
 </script>
+<script>(function(){var p=document.querySelector('.portrait'),a=document.getElementById('acc-portrait');if(p&&a)a.src=p.src;})();</script>
 </body>
 </html>
