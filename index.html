@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Le Relevé express · Le Cartographe</title>
-<meta name="description" content="9 questions, 90 secondes. Pourquoi ce projet n'avance pas, et comment vous bloquez.">
+<meta name="description" content="10 questions, 90 secondes. Pourquoi ce projet n'avance pas, et comment vous bloquez.">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="Le Relevé express · Le Cartographe">
 <meta property="og:description" content="Ce n'est pas un test de personnalité. Ça se calcule.">
@@ -237,13 +237,13 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
 
   <div id="progression" hidden>
     <div class="jauge"><span id="jauge-barre"></span></div>
-    <div class="etape-num" id="etape-num">Question 1 sur 9</div>
+    <div class="etape-num" id="etape-num">Question 1 sur 10</div>
   </div>
 
   <!-- ========== ACCUEIL ========== -->
   <section class="ecran actif" id="ecr-0">
     <h1>Le Relevé express</h1>
-    <p class="chapo">9 questions. 90 secondes.</p>
+    <p class="chapo">10 questions. 90 secondes.</p>
     <p class="chapo">Vous découvrez pourquoi ce projet que vous repoussez n&rsquo;avance pas, et comment vous bloquez.</p>
     <div class="filet"></div>
     <p class="chapo">Ce n&rsquo;est pas un test de personnalité. Ça se calcule.</p>
@@ -295,6 +295,17 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
     <div class="actions"><button class="lien-retour" data-va="3">Retour</button></div>
   </section>
 
+  <section class="ecran" id="ecr-4b">
+    <h2>La dernière fois que vous avez lâché ce projet, que s&rsquo;est-il passé juste avant&nbsp;?</h2>
+    <div class="choix" data-q="cause">
+      <button class="opt" data-v="regard">Quelqu&rsquo;un m&rsquo;a demandé où j&rsquo;en étais</button>
+      <button class="opt" data-v="chemin">Je ne savais plus quelle était l&rsquo;étape suivante</button>
+      <button class="opt" data-v="exigence">Ce que j&rsquo;avais fait ne me semblait pas à la hauteur</button>
+      <button class="opt" data-v="priorite">Autre chose est passé devant</button>
+    </div>
+    <div class="actions"><button class="lien-retour" data-va="4">Retour</button></div>
+  </section>
+
   <section class="ecran" id="ecr-5">
     <h2>Depuis combien de temps le repoussez-vous&nbsp;?</h2>
     <div class="choix" data-q="duree">
@@ -303,7 +314,7 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
       <button class="opt" data-v="long">Trois à dix ans</button>
       <button class="opt" data-v="tres_long">Plus longtemps que je ne veux l&rsquo;admettre</button>
     </div>
-    <div class="actions"><button class="lien-retour" data-va="4">Retour</button></div>
+    <div class="actions"><button class="lien-retour" data-va="5">Retour</button></div>
   </section>
 
   <section class="ecran" id="ecr-6">
@@ -314,7 +325,7 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
       <button class="opt" data-v="arret">J&rsquo;ai arrêté quelque chose</button>
       <button class="opt" data-v="debut">J&rsquo;ai commencé quelque chose</button>
     </div>
-    <div class="actions"><button class="lien-retour" data-va="5">Retour</button></div>
+    <div class="actions"><button class="lien-retour" data-va="6">Retour</button></div>
   </section>
 
   <section class="ecran" id="ecr-7">
@@ -325,15 +336,15 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
       <button class="opt" data-v="casse">Je crois que je l&rsquo;abandonnerai</button>
       <button class="opt" data-v="evite">Je ne veux pas y penser</button>
     </div>
-    <div class="actions"><button class="lien-retour" data-va="6">Retour</button></div>
+    <div class="actions"><button class="lien-retour" data-va="7">Retour</button></div>
   </section>
 
   <section class="ecran" id="ecr-8">
     <h2>En une phrase&nbsp;: le projet que vous repoussez</h2>
     <p class="chapo">Facultatif. Mais si vous l&rsquo;écrivez, je la lis.</p>
     <textarea id="phrase" maxlength="200" placeholder="Une phrase suffit."></textarea>
-    <div class="actions"><button class="btn" data-va="9">Continuer</button>
-      <button class="lien-retour" data-va="7">Retour</button></div>
+    <div class="actions"><button class="btn" data-va="10">Continuer</button>
+      <button class="lien-retour" data-va="8">Retour</button></div>
   </section>
 
   <section class="ecran" id="ecr-9">
@@ -346,7 +357,7 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
     <p class="err" id="err-9"></p>
     <p class="note" style="margin-top:6px">Le Relevé express est réservé aux personnes majeures.</p>
     <div class="actions"><button class="btn" id="btn-final">Afficher mon relevé</button>
-      <button class="lien-retour" data-va="8">Retour</button></div>
+      <button class="lien-retour" data-va="9">Retour</button></div>
   </section>
 
   <!-- ========== RESULTAT ========== -->
@@ -521,9 +532,32 @@ const PORTES={
 const QUESTIONS={
   relief:['Ce projet que vous repoussez touche à',{crete:'votre travail, votre activité',faille:'quelque chose à créer',versant:'un changement de cap',brouillard:'quelque chose que vous n’arrivez pas encore à nommer'}],
   porte:['Face à ce projet, ce qui se passe vraiment',{passe:'je me lance, puis je fais marche arrière',gue:'j’y pense sans arrêt, sans jamais trancher',col:'j’attends un avis, un signe, une validation',seuil:'je sais ce qu’il faut faire, mais je ne démarre pas'}],
+  cause:['Juste avant de lâcher ce projet, la dernière fois',{regard:'quelqu’un m’a demandé où j’en étais',chemin:'je ne savais plus quelle était l’étape suivante',exigence:'ce que j’avais fait ne me semblait pas à la hauteur',priorite:'autre chose est passé devant'}],
   duree:['Depuis combien de temps vous le repoussez',{court:'moins d’un an',moyen:'un à trois ans',long:'trois à dix ans',tres_long:'plus longtemps que je ne veux l’admettre'}],
   mouvement:['Ce qui a changé chez vous ces douze derniers mois',{rien:'rien, et c’est précisément ce qui m’inquiète',trop:'beaucoup, et trop vite',arret:'j’ai arrêté quelque chose',debut:'j’ai commencé quelque chose'}],
   enjeu:['Si ce projet n’a toujours pas avancé dans un an',{tenable:'je vivrai avec',couteux:'je le regretterai, mais je ferai avec',casse:'je crois que je l’abandonnerai',evite:'je ne veux pas y penser'}]
+};
+const CAUSES={
+  passe:{
+    regard:'Vous ne reculez pas devant le projet, vous reculez au moment où il devient visible. Tant qu’il reste secret, vous avancez.',
+    chemin:'Vous démarrez sur l’élan, et l’élan s’arrête là où la carte s’arrête. Ce n’est pas la volonté qui lâche, c’est la deuxième étape qui n’existe pas.',
+    exigence:'Vous reculez quand le résultat réel rencontre l’image que vous en aviez. Le projet ne s’arrête pas, il se fait juger trop tôt.',
+    priorite:'Chaque reprise cède à la première urgence, parce que rien dans votre semaine ne lui appartient. Le projet n’a pas de place, il a des restes.'},
+  gue:{
+    regard:'Vous ne cherchez pas la bonne option, vous cherchez celle qu’on ne pourra pas vous reprocher. Elle n’existe pas, d’où la boucle.',
+    chemin:'Vous comparez des destinations sans savoir à quoi ressemble le premier pas de chacune. On ne tranche pas entre deux brouillards.',
+    exigence:'Tant que rien n’est choisi, rien ne peut être raté. La réflexion est devenue l’endroit où le projet reste parfait.',
+    priorite:'Vous tranchez vite pour tout le reste. Ce projet est le seul que vous laissez attendre une décision sans date.'},
+  col:{
+    regard:'Ce feu vert est une permission. Personne ne vous la donnera, parce que personne ne sait que vous l’attendez.',
+    chemin:'Vous attendez qu’on vous montre la route, et vous appelez cette attente de la prudence.',
+    exigence:'Vous attendez d’être prêt, et la barre monte chaque fois que vous l’approchez.',
+    priorite:'Vous attendez le bon moment, mais votre agenda décide à votre place que ce n’est jamais maintenant.'},
+  seuil:{
+    regard:'Ce qui vous arrête n’est pas la tâche, c’est ce que la faire dirait de vous aux yeux des autres.',
+    chemin:'Vous connaissez la destination, pas le premier geste. « Savoir quoi faire » est encore trop vague pour commencer.',
+    exigence:'Vous savez déjà que la première version sera imparfaite. C’est elle que vous évitez, pas le projet.',
+    priorite:'Vous ne manquez ni de clarté ni d’envie. Le projet perd simplement chaque arbitrage face à ce qui crie plus fort.'}
 };
 const BONNE={passe:'Bonne nouvelle : vous savez démarrer. C’est la moitié du chemin.',gue:'Bonne nouvelle : un rond-point a toujours une sortie.',col:'Bonne nouvelle : le feu peut passer au vert sans attendre personne.',seuil:'Bonne nouvelle : devant un mur, on sait déjà où l’on est.'};
 const DUREE_COURTE_FICHE={court:'moins d\u2019un an',moyen:'1 à 3 ans',long:'3 à 10 ans',tres_long:'plus de 10 ans'};
@@ -641,7 +675,7 @@ function anneePerso(j,m){
 /* ============ etat et navigation ============ */
 const R={};
 let ecranCourant=0;
-const ORDRE=['ecr-0','ecr-1','ecr-2','ecr-3','ecr-4','ecr-5','ecr-6','ecr-7','ecr-8','ecr-9'];
+const ORDRE=['ecr-0','ecr-1','ecr-2','ecr-3','ecr-4','ecr-4b','ecr-5','ecr-6','ecr-7','ecr-8','ecr-9'];
 
 function aller(i){
   document.querySelectorAll('.ecran').forEach(e=>e.classList.remove('actif'));
@@ -650,8 +684,8 @@ function aller(i){
   const prog=document.getElementById('progression');
   prog.hidden = (i===0);
   if(i>0){
-    document.getElementById('jauge-barre').style.width = Math.round(i/9*100)+'%';
-    document.getElementById('etape-num').textContent = 'Question '+i+' sur 9';
+    document.getElementById('jauge-barre').style.width = Math.round(i/10*100)+'%';
+    document.getElementById('etape-num').textContent = 'Question '+i+' sur 10';
   }
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -690,7 +724,7 @@ function valider(i){
     }
     R.j=j; R.m=m; R.a=a; return true;
   }
-  if(i===8){ R.phrase=document.getElementById('phrase').value.trim(); return true; }
+  if(i===9){ R.phrase=document.getElementById('phrase').value.trim(); return true; }
   return true;
 }
 
@@ -730,12 +764,14 @@ document.getElementById('btn-final').addEventListener('click', async ()=>{
   document.getElementById('r-bonne').textContent = BONNE[R.porte];
 
   const D='<svg viewBox="0 0 10 10"><path d="M5 0l5 5-5 5-5-5z" fill="#C9A227"/></svg>';
-  document.getElementById('r-reps').innerHTML = ['relief','porte','duree','mouvement','enjeu']
+  document.getElementById('r-reps').innerHTML = ['relief','porte','cause','duree','mouvement','enjeu']
     .filter(k=>R[k]).map(k=>'<div class="rep">'+D+'<div><b>'+QUESTIONS[k][0]+'</b><small>Vous avez répondu : '+QUESTIONS[k][1][R[k]]+'</small></div></div>').join('')
     + (R.phrase ? '<div class="rep">'+D+'<div><b>Votre projet, dans vos mots</b><small>« '+echap(R.phrase)+' »</small></div></div>' : '');
   document.getElementById('r-synthese').innerHTML =
     '<p class="t">Vos réponses montrent un projet que vous portez depuis '+(DUREE_COURTE[R.duree]||'longtemps')+', et une façon précise de le laisser en suspens&nbsp;: '+por.symptome+'.</p>'+
-    '<p class="t">Ce n’est peut-être pas '+por.faux+'. C’est qu’'+apd.vrai+'.</p>';
+    (CAUSES[R.porte]&&CAUSES[R.porte][R.cause]
+      ? '<p class="t" style="margin-top:22px"><b>Ce que vous n’avez pas dit</b></p><p class="p-or">'+CAUSES[R.porte][R.cause]+'</p>'
+      : '<p class="t">Ce n’est peut-être pas '+por.faux+'. C’est qu’'+apd.vrai+'.</p>');
 
   document.getElementById('r-date').innerHTML =
     '<p class="t">'+CV[cv]+'</p>'+
@@ -772,7 +808,7 @@ document.getElementById('btn-final').addEventListener('click', async ()=>{
         DATE_NAISSANCE: R.a+'-'+String(R.m).padStart(2,'0')+'-'+String(R.j).padStart(2,'0'),
         CHEMIN_VIE:cv, ANNEE_PERSO:ap.valeur,
         DATE_BASCULE: dBasc.getFullYear()+'-'+String(R.m).padStart(2,'0')+'-'+String(R.j).padStart(2,'0'),
-        SIGNE:sg, RELIEF:R.relief, PORTE:R.porte,
+        SIGNE:sg, RELIEF:R.relief, PORTE:R.porte, CAUSE:R.cause||'',
         DUREE:R.duree||'', MOUVEMENT:R.mouvement||'', ENJEU:R.enjeu||'', PHRASE:R.phrase||''
       })
     });
