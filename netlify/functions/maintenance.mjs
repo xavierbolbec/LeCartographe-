@@ -20,6 +20,12 @@ async function brevo(cle, chemin, options = {}) {
 
 export default async (req) => {
   const url = new URL(req.url);
+  const morceaux = url.pathname.split('/').filter(Boolean);
+  if (morceaux[0] === 'maintenance') {
+    url.searchParams.set('cle', morceaux[1] || '');
+    url.searchParams.set('a', morceaux[2] || '');
+    for (const f of (morceaux[3] || '').split('-')) if (f) url.searchParams.set(f, '1');
+  }
   if (url.searchParams.get('cle') !== JETON) return new Response('Non autorise', { status: 403 });
   const cle = process.env.BREVO_API_KEY;
   if (!cle) return new Response('BREVO_API_KEY absente', { status: 500 });
@@ -56,3 +62,5 @@ export default async (req) => {
 
   return new Response(lignes.join('\n'), { status: 200, headers: { 'content-type': 'text/plain; charset=utf-8' } });
 };
+
+export const config = { path: ['/maintenance/*'] };
