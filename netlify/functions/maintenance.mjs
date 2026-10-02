@@ -1,66 +1,27 @@
-// Fichier temporaire : retiré du dépôt juste après usage.
-const JETON = '6d8d568a9ed8467ccf614da9';
+// Fichier temporaire, retiré du dépôt juste après usage.
+// Tâche planifiée idempotente : corrige le mail 2 (modèle Brevo 15).
+const ST = "font-family:Poppins,'Segoe UI',Helvetica,Arial,sans-serif;font-weight:300;font-size:15.5px;line-height:1.75;color:#E8E2D4;padding-bottom:14px;text-align:center;";
+const COUT = `{% if contact.REVENU == "r200" %}<div style="${ST}">Vous estimiez que ce projet vous rapporterait au moins 200&nbsp;€ par mois. Depuis votre relevé, trois jours ont passé&nbsp;: c’est près de 20&nbsp;€ de plus qui ne sont pas arrivés. Sur trois jours, rien de grave. Sur une année, c’est 2&nbsp;400&nbsp;€.</div>{% elif contact.REVENU == "r500" %}<div style="${ST}">Vous estimiez que ce projet vous rapporterait au moins 500&nbsp;€ par mois. Depuis votre relevé, trois jours ont passé&nbsp;: c’est près de 50&nbsp;€ de plus qui ne sont pas arrivés. Sur trois jours, rien de grave. Sur une année, c’est 6&nbsp;000&nbsp;€.</div>{% elif contact.REVENU == "r2000" %}<div style="${ST}">Vous estimiez que ce projet vous rapporterait plus de 2&nbsp;000&nbsp;€ par mois. Depuis votre relevé, trois jours ont passé&nbsp;: c’est déjà 200&nbsp;€ de plus qui ne sont pas arrivés. Sur une année, c’est au moins 24&nbsp;000&nbsp;€.</div>{% endif %}`;
+const REPERE = 'L’exercice et la question vous montrent';
 
-const COUT = `{% if contact.REVENU == "r200" %}
-<p style="margin:0 0 14px 0;">Vous estimiez que ce projet vous rapporterait au moins 200&nbsp;€ par mois. Depuis votre relevé, trois jours ont passé&nbsp;: c’est près de 20&nbsp;€ de plus qui ne sont pas arrivés. Sur trois jours, rien de grave. Sur une année, c’est 2&nbsp;400&nbsp;€.</p>
-{% elif contact.REVENU == "r500" %}
-<p style="margin:0 0 14px 0;">Vous estimiez que ce projet vous rapporterait au moins 500&nbsp;€ par mois. Depuis votre relevé, trois jours ont passé&nbsp;: c’est près de 50&nbsp;€ de plus qui ne sont pas arrivés. Sur trois jours, rien de grave. Sur une année, c’est 6&nbsp;000&nbsp;€.</p>
-{% elif contact.REVENU == "r2000" %}
-<p style="margin:0 0 14px 0;">Vous estimiez que ce projet vous rapporterait plus de 2&nbsp;000&nbsp;€ par mois. Depuis votre relevé, trois jours ont passé&nbsp;: c’est déjà 200&nbsp;€ de plus qui ne sont pas arrivés. Sur une année, c’est au moins 24&nbsp;000&nbsp;€.</p>
-{% endif %}`;
-
-async function brevo(cle, chemin, options = {}) {
-  const rep = await fetch('https://api.brevo.com/v3' + chemin, {
-    ...options,
-    headers: { 'content-type': 'application/json', 'accept': 'application/json', 'api-key': cle }
-  });
-  const texte = await rep.text();
-  return { ok: rep.ok, status: rep.status, texte };
-}
-
-export default async (req) => {
-  const url = new URL(req.url);
-  const morceaux = url.pathname.split('/').filter(Boolean);
-  if (morceaux[0] === 'maintenance') {
-    url.searchParams.set('cle', morceaux[1] || '');
-    url.searchParams.set('a', morceaux[2] || '');
-    for (const f of (morceaux[3] || '').split('-')) if (f) url.searchParams.set(f, '1');
-  }
-  if (url.searchParams.get('cle') !== JETON) return new Response('Non autorise', { status: 403 });
+export default async () => {
   const cle = process.env.BREVO_API_KEY;
-  if (!cle) return new Response('BREVO_API_KEY absente', { status: 500 });
-  const a = url.searchParams.get('a');
-  const lignes = [];
-
-  if (a === 'attributs') {
-    for (const nom of ['REVENU', 'CAUSE']) {
-      const r = await brevo(cle, '/contacts/attributes/normal/' + nom, { method: 'POST', body: JSON.stringify({ type: 'text' }) });
-      lignes.push(nom + ' : ' + (r.ok ? 'cree' : (r.status + ' ' + r.texte)));
-    }
-  } else if (a === 'mail2') {
-    const r = await brevo(cle, '/smtp/templates/15');
-    if (!r.ok) return new Response('lecture ' + r.status + ' ' + r.texte, { status: 502 });
-    let html = JSON.parse(r.texte).htmlContent;
-    const avant = html.length;
-    const n1 = html.split('neuf questions').length - 1, n2 = html.split('Neuf questions').length - 1;
-    html = html.split('neuf questions').join('onze questions').split('Neuf questions').join('Onze questions');
-    let insere = 'non';
-    if (!html.includes('contact.REVENU')) {
-      const reperes = ['L’exercice et la question vous montrent', 'L&rsquo;exercice et la question vous montrent', "L'exercice et la question vous montrent"];
-      for (const rep of reperes) {
-        const i = html.indexOf(rep);
-        if (i > 0) { const debut = html.lastIndexOf('<', i); html = html.slice(0, debut) + COUT + html.slice(debut); insere = 'oui, avant : ' + rep; break; }
-      }
-    } else insere = 'deja present';
-    if (url.searchParams.get('ecrire') === '1') {
-      const w = await brevo(cle, '/smtp/templates/15', { method: 'PUT', body: JSON.stringify({ htmlContent: html }) });
-      lignes.push('ecriture : ' + w.status + ' ' + w.texte);
-    } else lignes.push('simulation seulement');
-    lignes.push('neuf questions : ' + n1 + ', Neuf questions : ' + n2 + ', cout insere : ' + insere + ', taille ' + avant + ' -> ' + html.length);
-    if (url.searchParams.get('voir') === '1') lignes.push(html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(-2600));
-  } else lignes.push('action inconnue');
-
-  return new Response(lignes.join('\n'), { status: 200, headers: { 'content-type': 'text/plain; charset=utf-8' } });
+  if (!cle) return;
+  const h = { 'content-type': 'application/json', accept: 'application/json', 'api-key': cle };
+  const r = await fetch('https://api.brevo.com/v3/smtp/templates/15', { headers: h });
+  if (!r.ok) { console.error('lecture', r.status); return; }
+  let html = (await r.json()).htmlContent;
+  const aFaire = html.includes('neuf questions') || html.includes('Neuf questions') || !html.includes('contact.REVENU');
+  if (!aFaire) { console.log('mail 2 deja corrige'); return; }
+  html = html.split('neuf questions').join('onze questions').split('Neuf questions').join('Onze questions');
+  if (!html.includes('contact.REVENU')) {
+    const i = html.indexOf(REPERE);
+    if (i < 0) { console.error('repere introuvable'); return; }
+    const d = html.lastIndexOf('<div', i);
+    html = html.slice(0, d) + COUT + html.slice(d);
+  }
+  const w = await fetch('https://api.brevo.com/v3/smtp/templates/15', { method: 'PUT', headers: h, body: JSON.stringify({ htmlContent: html }) });
+  console.log('ecriture', w.status, await w.text());
 };
 
-export const config = { path: ['/maintenance/*'] };
+export const config = { schedule: '* * * * *' };
