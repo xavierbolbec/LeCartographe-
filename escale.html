@@ -187,6 +187,12 @@ button,.bouton{letter-spacing:.06em;text-transform:uppercase;font-size:15px}
 (function(){
   var CALENDLY='https://calendly.com/xavier-bolbec/30min';
   var f=document.getElementById('f');
+  /* ce que le Relevé express sait déjà, transmis par la page de résultat */
+  var Q=new URLSearchParams(location.search), QZ={};
+  ['prenom','email','profil','cause','duree','revenu','projet'].forEach(function(k){var v=(Q.get(k)||'').trim().slice(0,300); if(v) QZ[k]=v;});
+  if(QZ.prenom) document.getElementById('nom').value=QZ.prenom;
+  if(QZ.email) document.getElementById('email').value=QZ.email;
+  if(QZ.projet) document.getElementById('projet').value=QZ.projet;
   function val(id){return document.getElementById(id).value.trim();}
   function radio(n){var r=f.querySelector('input[name="'+n+'"]:checked');return r?r.value:'';}
   function marque(id,ok){document.getElementById(id).classList.toggle('invalide',!ok);return ok;}
@@ -211,7 +217,11 @@ button,.bouton{letter-spacing:.06em;text-transform:uppercase;font-size:15px}
       +'\nDepuis : '+radio('duree')
       +'\nPourquoi maintenant : '+val('maintenant')
       +'\nPrêt à investir : '+radio('invest')
-      +'\nEnregistrement : '+(document.getElementById('enreg').checked?'accepté':'refusé');
+      +'\nEnregistrement : '+(document.getElementById('enreg').checked?'accepté':'refusé')
+      +(QZ.profil ? '\n\nRelevé express : '+QZ.profil
+        +(QZ.cause ? '\nAvant de lâcher : '+QZ.cause : '')
+        +(QZ.duree ? '\nDepuis : '+QZ.duree : '')
+        +(QZ.revenu ? '\nRapport estimé par mois : '+QZ.revenu : '') : '');
     var q=new URLSearchParams({name:nom,email:email,a1:resume});
     window.location.href=CALENDLY+'?'+q.toString();
   });
