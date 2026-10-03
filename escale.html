@@ -207,12 +207,6 @@ button,.bouton{letter-spacing:.06em;text-transform:uppercase;font-size:15px}
     ok=marque('c-invest',!!radio('invest'))&&ok;
     ok=marque('c-majeur',document.getElementById('majeur').checked)&&ok;
     if(!ok){var p=f.querySelector('.invalide');if(p)p.scrollIntoView({behavior:'smooth',block:'center'});return;}
-    if(radio('invest')==='Pas pour le moment'){
-      document.getElementById('formulaire').style.display='none';
-      document.getElementById('suite').style.display='block';
-      window.scrollTo({top:0,behavior:'smooth'});
-      return;
-    }
     var resume='Projet : '+val('projet')
       +'\nDepuis : '+radio('duree')
       +'\nPourquoi maintenant : '+val('maintenant')
@@ -222,6 +216,15 @@ button,.bouton{letter-spacing:.06em;text-transform:uppercase;font-size:15px}
         +(QZ.cause ? '\nAvant de lâcher : '+QZ.cause : '')
         +(QZ.duree ? '\nDepuis : '+QZ.duree : '')
         +(QZ.revenu ? '\nRapport estimé par mois : '+QZ.revenu : '') : '');
+    /* trace pour Xavier, que la personne réserve ou non ; n'attend pas la réponse */
+    try{ fetch('/.netlify/functions/escale',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({nom:nom,email:email,resume:resume,suite:radio('invest')==='Pas pour le moment'?'orientée vers Le Relevé':'partie vers Calendly'})}); }catch(_){}
+    if(radio('invest')==='Pas pour le moment'){
+      document.getElementById('formulaire').style.display='none';
+      document.getElementById('suite').style.display='block';
+      window.scrollTo({top:0,behavior:'smooth'});
+      return;
+    }
     var q=new URLSearchParams({name:nom,email:email,a1:resume});
     window.location.href=CALENDLY+'?'+q.toString();
   });
