@@ -45,7 +45,8 @@ body{
   background-image:linear-gradient(rgba(201,162,39,.05) 1px,transparent 1px),
                    linear-gradient(90deg,rgba(201,162,39,.05) 1px,transparent 1px);
   background-size:74px 74px;}
-.rose-fond{position:fixed;left:-24%;top:50%;transform:translateY(-50%);
+.fond-rose{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.rose-fond{position:absolute;left:-24%;top:50%;transform:translateY(-50%);
   width:150vw;max-width:900px;opacity:.16;pointer-events:none;z-index:0}
 .enveloppe{position:relative;z-index:1;max-width:var(--max);margin:0 auto;
   padding:26px 22px calc(40px + env(safe-area-inset-bottom));
@@ -244,12 +245,12 @@ footer{margin-top:auto;padding-top:34px;display:flex;justify-content:space-betwe
 </head>
 <body>
 <div class="grille" aria-hidden="true"></div>
-<svg class="rose-fond" viewBox="0 0 400 400" aria-hidden="true"><g id="rose-src" fill="none" stroke="#C9A227" stroke-width="1.1">
+<div class="fond-rose" aria-hidden="true"><svg class="rose-fond" viewBox="0 0 400 400" aria-hidden="true"><g id="rose-src" fill="none" stroke="#C9A227" stroke-width="1.1">
   <circle cx="200" cy="200" r="186"/><circle cx="200" cy="200" r="134"/><circle cx="200" cy="200" r="19"/>
   <g id="grads"></g>
   <path d="M200 66V200M200 200v134M66 200h134M200 200h134" stroke-opacity=".85"/>
   <path d="M200 200 105 105M200 200l95-95M200 200l95 95M200 200l-95 95" stroke-opacity=".45"/>
-</g></svg>
+</g></svg></div>
 
 <div class="enveloppe">
   <header>

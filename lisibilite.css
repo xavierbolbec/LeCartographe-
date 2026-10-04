@@ -52,3 +52,7 @@ label.lab, .sur, .sur-titre, .sur-acc, .etape-num, .bloc .titre, .duree,
   .actions .btn{flex:1 1 100%}
   .actions .lien-retour{margin:0 auto}
 }
+
+/* Rien ne doit dépasser la largeur de l'écran : sinon le téléphone
+   dézoome toute la page et le texte paraît petit. */
+html, body{max-width:100%; overflow-x:hidden}
