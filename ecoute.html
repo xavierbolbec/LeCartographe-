@@ -83,6 +83,7 @@ footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left
 .sep i{display:block;width:54px;height:1px;background:var(--or)}
 .sep svg{width:12px;height:12px}
 </style>
+<link rel="stylesheet" href="/lisibilite.css">
 </head>
 <body>
 <div class="enveloppe">
@@ -113,14 +114,14 @@ footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left
     <div class="etape">Ce qui vous occupe</div>
 
     <div class="champ" id="c-probleme">
-      <label class="q" for="probleme"><span class="num">1</span>Aujourd&rsquo;hui, quel est le plus gros problème que vous aimeriez régler ?<span class="oblig">Obligatoire</span></label>
+      <label class="q" for="probleme"><span class="num">1</span>Aujourd&rsquo;hui, quel est le plus gros problème que vous aimeriez régler&nbsp;?<span class="oblig">Obligatoire</span></label>
       <p class="aide">Décrivez-le avec vos mots. Il n&rsquo;y a pas de bonne ou de mauvaise réponse.</p>
       <textarea id="probleme" name="probleme" required></textarea>
       <p class="err">Quelques mots suffisent.</p>
     </div>
 
     <div class="champ">
-      <p class="q"><span class="num">2</span>À quel point ce problème vous pèse-t-il aujourd&rsquo;hui ?</p>
+      <p class="q"><span class="num">2</span>À quel point ce problème vous pèse-t-il aujourd&rsquo;hui&nbsp;?</p>
       <p class="aide">De 1 (un peu) à 10 (énormément).</p>
       <div class="echelle">
         <label><input type="radio" name="intensite" value="1"><span>1</span></label>
@@ -138,7 +139,7 @@ footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left
     </div>
 
     <div class="champ">
-      <p class="q"><span class="num">3</span>Dans quel domaine se situe ce problème ?</p>
+      <p class="q"><span class="num">3</span>Dans quel domaine se situe ce problème&nbsp;?</p>
       <div class="choix deux" data-autre="domaine_autre">
         <label><input type="radio" name="domaine" value="Mon travail ou ma carrière"> Mon travail ou ma carrière</label>
         <label><input type="radio" name="domaine" value="Un projet ou mon entreprise"> Un projet ou mon entreprise</label>
@@ -151,7 +152,7 @@ footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left
     </div>
 
     <div class="champ">
-      <p class="q"><span class="num">4</span>Depuis combien de temps dure-t-il ?</p>
+      <p class="q"><span class="num">4</span>Depuis combien de temps dure-t-il&nbsp;?</p>
       <div class="choix deux">
         <label><input type="radio" name="duree" value="Moins de 6 mois"> Moins de 6 mois</label>
         <label><input type="radio" name="duree" value="De 6 mois à 1 an"> De 6 mois à 1 an</label>
@@ -161,12 +162,12 @@ footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left
     </div>
 
     <div class="champ">
-      <label class="q" for="declic"><span class="num">5</span>Qu&rsquo;est-ce qui fait que c&rsquo;est devenu important maintenant ?</label>
+      <label class="q" for="declic"><span class="num">5</span>Qu&rsquo;est-ce qui fait que c&rsquo;est devenu important maintenant&nbsp;?</label>
       <textarea id="declic" name="declic"></textarea>
     </div>
 
     <div class="champ">
-      <p class="q"><span class="num">6</span>Qu&rsquo;avez-vous déjà fait pour le régler ?</p>
+      <p class="q"><span class="num">6</span>Qu&rsquo;avez-vous déjà fait pour le régler&nbsp;?</p>
       <p class="aide">Plusieurs réponses possibles.</p>
       <div class="choix" id="essais" data-autre="essai_autre">
         <label><input type="checkbox" value="Rien pour l'instant"> Rien pour l&rsquo;instant</label>
@@ -178,7 +179,7 @@ footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left
       </div>
       <input type="text" class="precise" id="essai_autre" name="essai_autre" placeholder="Précisez">
 
-      <p class="q" style="margin-top:22px;font-size:16.5px">Avez-vous déjà payé pour essayer de le régler ?</p>
+      <p class="q" style="margin-top:22px;font-size:16.5px">Avez-vous déjà payé pour essayer de le régler&nbsp;?</p>
       <div class="choix deux" data-autre="paye_quoi" data-declencheur="Oui">
         <label><input type="radio" name="deja_paye" value="Oui"> Oui</label>
         <label><input type="radio" name="deja_paye" value="Non"> Non</label>
@@ -187,12 +188,12 @@ footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left
     </div>
 
     <div class="champ">
-      <label class="q" for="frein"><span class="num">7</span>Qu&rsquo;est-ce qui vous retient encore d&rsquo;avancer ?</label>
+      <label class="q" for="frein"><span class="num">7</span>Qu&rsquo;est-ce qui vous retient encore d&rsquo;avancer&nbsp;?</label>
       <textarea id="frein" name="frein"></textarea>
     </div>
 
     <div class="champ">
-      <label class="q" for="changement"><span class="num">8</span>Si ce problème était réglé, qu&rsquo;est-ce qui changerait concrètement pour vous ?</label>
+      <label class="q" for="changement"><span class="num">8</span>Si ce problème était réglé, qu&rsquo;est-ce qui changerait concrètement pour vous&nbsp;?</label>
       <textarea id="changement" name="changement"></textarea>
     </div>
 
@@ -222,7 +223,7 @@ footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left
     </div>
 
     <div class="champ">
-      <p class="q"><span class="num">11</span>Où vivez-vous ?</p>
+      <p class="q"><span class="num">11</span>Où vivez-vous&nbsp;?</p>
       <div class="choix deux">
         <label><input type="radio" name="lieu" value="Guadeloupe"> Guadeloupe</label>
         <label><input type="radio" name="lieu" value="Martinique ou Guyane"> Martinique ou Guyane</label>
@@ -234,7 +235,7 @@ footer a{font-size:12px;text-decoration:none;color:var(--texte-doux);margin-left
     <div class="etape">Pour rester informé</div>
 
     <div class="champ" id="c-email">
-      <label class="q" for="email"><span class="num">12</span>Souhaitez-vous recevoir les messages du Cartographe ?</label>
+      <label class="q" for="email"><span class="num">12</span>Souhaitez-vous recevoir les messages du Cartographe&nbsp;?</label>
       <p class="aide">Facultatif. La case n&rsquo;est pas cochée par défaut.</p>
       <input type="email" id="email" name="email" autocomplete="email" placeholder="Votre adresse email">
       <label class="coche"><input type="checkbox" id="accord" name="accord_messages" value="Oui"> <span>J&rsquo;accepte de recevoir les messages du Cartographe par email.</span></label>
