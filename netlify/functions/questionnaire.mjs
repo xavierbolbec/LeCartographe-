@@ -72,18 +72,18 @@ export default async (req) => {
 
   // ---- accusé de réception au client, dans la charte ----
   const accuse = `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"></head>
-<body style="margin:0;padding:0;background-color:#0E1B2E;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0E1B2E"><tr><td align="center" style="padding:26px 12px 48px;">
+<body style="margin:0;padding:0;background-color:#0E1B2E;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0E1B2E"><tr><td align="center" style="padding:20px 8px 40px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;">
-<tr><td style="padding:4px 4px 30px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="font-family:Lora,Georgia,serif;font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:#F2E6CE;">Le Cartographe</td><td align="right" style="font-family:Poppins,Arial,sans-serif;font-size:11px;letter-spacing:.13em;color:#C9A227;">16°15′N · 61°35′W</td></tr></table></td></tr>
-<tr><td><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#13233A" style="background-color:#13233A;border:1px solid #5C5126;border-radius:6px;"><tr><td align="center" style="padding:34px 20px 30px;text-align:center;">
+<tr><td align="center" style="padding:4px 4px 26px;text-align:center;"><div style="font-family:Lora,Georgia,serif;font-size:17px;font-weight:600;letter-spacing:.22em;color:#F2E6CE;">LE CARTOGRAPHE</div><div style="font-family:Poppins,Arial,sans-serif;font-size:12px;letter-spacing:.12em;color:#A9B8CA;padding-top:6px;">16°15′N · 61°35′W</div></td></tr>
+<tr><td><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#13233A" style="background-color:#13233A;border:1px solid #5C5126;border-radius:6px;"><tr><td align="center" style="padding:32px 18px 28px;text-align:center;">
 <table role="presentation" align="center" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 18px;"><tr><td width="54" style="border-top:1px solid #C9A227;font-size:0;line-height:0;">&nbsp;</td><td style="padding:0 10px;font-family:Georgia,serif;font-size:12px;line-height:12px;color:#C9A227;">&#10022;</td><td width="54" style="border-top:1px solid #C9A227;font-size:0;line-height:0;">&nbsp;</td></tr></table>
-<div style="font-family:Poppins,Arial,sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#C9A227;padding-bottom:12px;">${esc(offre)} · questionnaire reçu</div>
+<div style="font-family:Poppins,Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#C9A227;padding-bottom:12px;">${esc(offre)} · questionnaire reçu</div>
 <div style="font-family:Lora,Georgia,serif;font-weight:500;font-size:28px;line-height:1.2;color:#F2E6CE;padding-bottom:14px;">Merci${prenom ? ', ' + esc(prenom) : ''}.</div>
-<div style="font-family:Lora,Georgia,serif;font-style:italic;font-size:17px;line-height:1.6;color:#E8E2D4;">Vos réponses sont bien arrivées. ${esc(SUITE[d.offre])}</div>
-<div style="font-family:Poppins,Arial,sans-serif;font-weight:300;font-size:15px;line-height:1.7;color:#A9B8CA;padding-top:18px;">Si quelque chose vous revient d’ici là, répondez simplement à ce message : je l’ajouterai à vos réponses.</div>
+<div style="font-family:Lora,Georgia,serif;font-style:italic;font-size:18px;line-height:1.6;color:#E8E2D4;">Vos réponses sont bien arrivées. ${esc(SUITE[d.offre])}</div>
+<div style="font-family:Poppins,Arial,sans-serif;font-size:17px;line-height:1.65;color:#E8E2D4;padding-top:18px;text-align:left;">Si quelque chose vous revient d’ici là, répondez simplement à ce message : je l’ajouterai à vos réponses.</div>
 </td></tr></table></td></tr>
-<tr><td style="padding:24px 4px 0;font-family:Lora,Georgia,serif;font-size:17px;line-height:1.6;color:#F2E6CE;text-align:center;">Xavier<br><span style="font-family:Poppins,Arial,sans-serif;font-size:12px;color:#A9B8CA;">Le Cartographe, Guadeloupe</span></td></tr>
-<tr><td align="center" style="padding:30px 0 0;font-family:Poppins,Arial,sans-serif;font-size:12px;letter-spacing:.15em;color:#A9B8CA;">Respire · Écoute · Agis</td></tr>
+<tr><td style="padding:24px 4px 0;font-family:Lora,Georgia,serif;font-size:21px;line-height:1.5;color:#F2E6CE;text-align:center;">Xavier<br><span style="font-family:Poppins,Arial,sans-serif;font-size:14px;color:#A9B8CA;">Le Cartographe, Sainte-Anne, Guadeloupe</span></td></tr>
+<tr><td align="center" style="padding:30px 0 0;font-family:Poppins,Arial,sans-serif;font-size:14px;letter-spacing:.15em;color:#A9B8CA;">Respire · Écoute · Agis</td></tr>
 </table></td></tr></table></body></html>`;
   try {
     await brevo(cle, {
