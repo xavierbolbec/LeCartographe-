@@ -3,7 +3,7 @@ const MODELES={"14": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head><meta charset=\
 
 export default async (req) => {
   const u = new URL(req.url);
-  if (u.searchParams.get('t') !== TOK) return new Response('non', { status: 403 });
+  if (!req.url.includes(TOK)) return new Response('refus ' + u.pathname + ' ' + u.search, { status: 200 });
   const cle = Netlify.env.get('BREVO_API_KEY') || process.env.BREVO_API_KEY;
   const out = {};
   for (const [id, html] of Object.entries(MODELES)) {
